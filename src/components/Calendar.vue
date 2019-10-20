@@ -20,6 +20,7 @@
           :key="`month-day-${day}`"
           :class="{ 
             'calendar__cell': true,
+            'calendar__cell--day': true,
             'calendar__cell--past': isPast(day) 
           }"
           :data-day="day"
@@ -142,9 +143,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url("//fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 .calendar {
-  font-family: "Roboto", "Avenir", Helvetica, Arial, sans-serif;
   color: #3c4043;
   font-size: 16px;
   main {
