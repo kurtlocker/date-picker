@@ -168,7 +168,7 @@ export default {
       );
     },
     /**
-     * Updates the calendar month by +|- 1 
+     * Updates the calendar month by +|- 1.
      * @param {Number} n The month number to shift by
      * @returns {void}
      */
