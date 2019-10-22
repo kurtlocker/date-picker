@@ -1,5 +1,5 @@
 <template>
-  <section class="calendar" :data-month="date.getUTCMonth()" :data-year="date.getUTCFullYear()">
+  <div class="calendar" :data-month="date.getUTCMonth()" :data-year="date.getUTCFullYear()">
     <header>
       {{ month }}&nbsp;
       <span v-if="needsYear">{{ date.getUTCFullYear() }}</span>
@@ -29,7 +29,7 @@
     </main>
     <button @click="updateMonth(-1)">Previous</button>
     <button @click="updateMonth(1)">Next</button>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -37,11 +37,20 @@ export default {
   name: "Calendar",
   data() {
     return {
+      /**
+       * Used to determine if a particular date is in the past.
+       */
       today: new Date(),
+      /**
+       * The date object used by the component
+       */
       date: this.initialDate
     };
   },
   props: {
+    /**
+     * Intialize the calendar with a date.
+     */
     initialDate: {
       type: Date,
       required: false,
@@ -66,23 +75,40 @@ export default {
       }
       return weekDayMap;
     },
+    /**
+     * Returns the number of days in the month.
+     * @returns {Number}
+     */
     days() {
       return this.getDaysInMonth(
         this.date.getUTCFullYear(),
         this.date.getUTCMonth()
       );
     },
+    /**
+     * The number of days to offset before day 1 of the month starts.
+     * Corresponds with blank cells in the calendar month.
+     * @returns {Number} 
+     */
     daysOffset() {
-      const { date, weekDayMap } = this;
-      const monthStartDay = this.getMonthStartDay(
+      const { date, weekDayMap, getMonthStartDay } = this;
+      const monthStartDay = getMonthStartDay(
         date.getUTCFullYear(),
         date.getUTCMonth()
       );
       return weekDayMap[monthStartDay].num;
     },
+    /**
+     * The name of the month
+     * @returns {String}
+     */
     month() {
       return this.date.toLocaleString("default", { month: "long" });
     },
+    /**
+     * Determines if we should display the year.
+     * @returns {Boolean}
+     */
     needsYear() {
       const { date, today } = this;
       return (
@@ -112,10 +138,22 @@ export default {
     getWeekDay(date, form) {
       return date.toLocaleDateString(undefined, { weekday: form });
     },
+    /**
+     * Returns the localized weekday name for the given year and month.
+     * @param {Number} year
+     * @param {Number} month
+     * @return {String}
+     */
     getMonthStartDay(year, month) {
       const date = new Date(year, month, 1);
       return this.getWeekDay(date, "long");
     },
+    /**
+     * Determines if a given calendarDay is in the past by comparing it to
+     * today's date.
+     * @param {Number} calendarDay 
+     * @return {Boolean}
+     */
     isPast(calendarDay) {
       const { today, date } = this;
       const calendarYear = date.getUTCFullYear();
@@ -129,11 +167,15 @@ export default {
         (calendarMonth === todayMonth && calendarDay < todayDay)
       );
     },
+    /**
+     * Updates the calendar month by +|- 1 
+     * @param {Number} n The month number to shift by
+     * @returns {void}
+     */
     updateMonth(n) {
-      const { date } = this;
       const newDate = new Date(
-        date.getUTCFullYear(),
-        date.getUTCMonth() + n,
+        this.date.getUTCFullYear(),
+        this.date.getUTCMonth() + n,
         1
       );
       this.date = newDate;
@@ -154,7 +196,7 @@ export default {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       li {
-        padding: 2em;
+        padding: 1em;
       }
     }
   }
