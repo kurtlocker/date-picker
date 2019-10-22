@@ -188,6 +188,9 @@ export default {
 .calendar {
   color: #3c4043;
   font-size: 16px;
+  header {
+    margin-bottom: .5em;
+  }
   main {
     ul {
       padding: 0;

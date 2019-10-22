@@ -1,4 +1,4 @@
-# Calendar
+# Date Picker
 
 ## Project setup
 ```
