@@ -88,7 +88,7 @@ export default {
     /**
      * The number of days to offset before day 1 of the month starts.
      * Corresponds with blank cells in the calendar month.
-     * @returns {Number} 
+     * @returns {Number}
      */
     daysOffset() {
       const { date, weekDayMap, getMonthStartDay } = this;
@@ -151,7 +151,7 @@ export default {
     /**
      * Determines if a given calendarDay is in the past by comparing it to
      * today's date.
-     * @param {Number} calendarDay 
+     * @param {Number} calendarDay
      * @return {Boolean}
      */
     isPast(calendarDay) {
@@ -189,7 +189,7 @@ export default {
   color: #3c4043;
   font-size: 16px;
   header {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
   main {
     ul {
