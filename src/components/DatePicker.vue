@@ -6,22 +6,24 @@
 </template>
 
 <script>
-import Calendar from './Calendar.vue'
+import Calendar from "./Calendar.vue";
 
 export default {
-  name: 'DatePicker',
+  name: "DatePicker",
   components: {
-    Calendar,
+    Calendar
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .date-picker {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 2em;
-  @media screen and (min-width: 787px) {
+}
+@media screen and (min-width: 787px) {
+  .date-picker {
     grid-template-columns: 1fr 1fr;
   }
 }

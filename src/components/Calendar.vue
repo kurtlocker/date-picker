@@ -184,33 +184,29 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .calendar {
   color: #3c4043;
   font-size: 16px;
-  header {
-    margin-bottom: 0.5em;
-  }
-  main {
-    ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      li {
-        padding: 1em;
-      }
-    }
-  }
-  &__cell {
-    &--label {
-      color: rgba(0, 0, 0, 0.54);
-      font-size: 13px;
-    }
-    &--past {
-      color: rgba(0, 0, 0, 0.26);
-    }
-  }
+}
+.calendar__cell--label {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 13px;
+}
+.calendar__cell--past {
+  color: rgba(0, 0, 0, 0.26);
+}
+.calendar header {
+  margin-bottom: 0.5em;
+}
+.calendar main ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.calendar main ul li {
+  padding: 1em;
 }
 </style>
