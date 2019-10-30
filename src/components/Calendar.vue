@@ -27,8 +27,14 @@
         >{{ day }}</li>
       </ul>
     </main>
-    <button @click="updateMonth(-1)">Previous</button>
-    <button @click="updateMonth(1)">Next</button>
+    <template v-if="hasMonthUpdateButtons">
+      <slot name="previous" v-bind="{updateMonth}">
+        <button @click="updateMonth(-1)">Previous</button>
+      </slot>
+      <slot name="next" v-bind="{updateMonth}">
+        <button @click="updateMonth(1)">Next</button>
+      </slot>
+    </template>
   </div>
 </template>
 
@@ -55,6 +61,14 @@ export default {
       type: Date,
       required: false,
       default: () => new Date()
+    },
+    /**
+     * Determines if a calendar has month update markup
+     */
+    hasMonthUpdateButtons: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
