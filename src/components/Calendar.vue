@@ -2,7 +2,7 @@
   <div class="calendar" :data-month="date.getUTCMonth()" :data-year="date.getUTCFullYear()">
     <header>
       {{ month }}&nbsp;
-      <span v-if="needsYear">{{ date.getUTCFullYear() }}</span>
+      <span v-if="needsYear">{{ internalDate.getUTCFullYear() }}</span>
     </header>
     <main>
       <ul>
@@ -46,8 +46,22 @@ export default {
       /**
        * Used to determine if a particular date is in the past.
        */
-      today: new Date()
+      today: new Date(),
+      /**
+       * The date object used for this instance.
+       */
+      internalDate: this.date
     };
+  },
+  watch: {
+    /**
+     * When the date prop changes, set the {@link internalDate} with the
+     * new dateObj.
+     * @param {Date} dateObj The dateObj
+     */
+    date(dateObj) {
+      this.internalDate = dateObj;
+    }
   },
   props: {
     /**
@@ -91,8 +105,8 @@ export default {
      */
     days() {
       return this.getDaysInMonth(
-        this.date.getUTCFullYear(),
-        this.date.getUTCMonth()
+        this.internalDate.getUTCFullYear(),
+        this.internalDate.getUTCMonth()
       );
     },
     /**
@@ -101,10 +115,10 @@ export default {
      * @returns {Number}
      */
     daysOffset() {
-      const { date, weekDayMap, getMonthStartDay } = this;
+      const { internalDate, weekDayMap, getMonthStartDay } = this;
       const monthStartDay = getMonthStartDay(
-        date.getUTCFullYear(),
-        date.getUTCMonth()
+        internalDate.getUTCFullYear(),
+        internalDate.getUTCMonth()
       );
       return weekDayMap[monthStartDay].num;
     },
@@ -113,17 +127,17 @@ export default {
      * @returns {String}
      */
     month() {
-      return this.date.toLocaleString("default", { month: "long" });
+      return this.internalDate.toLocaleString("default", { month: "long" });
     },
     /**
      * Determines if we should display the year.
      * @returns {Boolean}
      */
     needsYear() {
-      const { date, today } = this;
+      const { internalDate, today } = this;
       return (
-        date.getUTCFullYear() > today.getUTCFullYear() ||
-        date.getUTCFullYear() < today.getUTCFullYear()
+        internalDate.getUTCFullYear() > today.getUTCFullYear() ||
+        internalDate.getUTCFullYear() < today.getUTCFullYear()
       );
     }
   },
@@ -165,9 +179,9 @@ export default {
      * @return {Boolean}
      */
     isPast(calendarDay) {
-      const { today, date } = this;
-      const calendarYear = date.getUTCFullYear();
-      const calendarMonth = date.getUTCMonth();
+      const { today, internalDate } = this;
+      const calendarYear = internalDate.getUTCFullYear();
+      const calendarMonth = internalDate.getUTCMonth();
       const todayYear = today.getUTCFullYear();
       const todayMonth = today.getUTCMonth();
       const todayDay = today.getDate();
@@ -186,11 +200,11 @@ export default {
      */
     updateMonth(n) {
       const newDate = new Date(
-        this.date.getUTCFullYear(),
-        this.date.getUTCMonth() + n,
+        this.internalDate.getUTCFullYear(),
+        this.internalDate.getUTCMonth() + n,
         1
       );
-      this.date = newDate;
+      this.internalDate = newDate;
     }
   }
 };

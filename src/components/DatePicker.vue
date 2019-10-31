@@ -1,6 +1,6 @@
 <template>
   <div class="date-picker">
-    <calendar :date="date" />
+    <calendar :date="internalDate" />
     <calendar :date="nextMonth" />
     <button @click="updateMonth(-1)">Previous</button>
     <button @click="updateMonth(1)">Next</button>
@@ -15,6 +15,14 @@ export default {
   components: {
     Calendar
   },
+  data() {
+    return {
+      /**
+       * The date object used for this instance.
+       */
+      internalDate: this.date,
+    }
+  },
   props: {
     /**
      * Intialize the date picker with a date.
@@ -27,13 +35,13 @@ export default {
   },
   computed: {
     /**
-     * Returns a new date whose month is +1 of {@link this.date}.
+     * Returns a new date whose month is +1 of {@link this.internalDate}.
      * @returns {Date}
      */
     nextMonth() {
       return new Date(
-        this.date.getUTCFullYear(),
-        this.date.getUTCMonth() + 1,
+        this.internalDate.getUTCFullYear(),
+        this.internalDate.getUTCMonth() + 1,
         1
       );
     }
@@ -46,11 +54,11 @@ export default {
      */
     updateMonth(n) {
       const newDate = new Date(
-        this.date.getUTCFullYear(),
-        this.date.getUTCMonth() + n,
+        this.internalDate.getUTCFullYear(),
+        this.internalDate.getUTCMonth() + n,
         1
       );
-      this.date = newDate;
+      this.internalDate = newDate;
     }
   }
 };
