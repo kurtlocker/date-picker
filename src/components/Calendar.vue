@@ -46,18 +46,14 @@ export default {
       /**
        * Used to determine if a particular date is in the past.
        */
-      today: new Date(),
-      /**
-       * The date object used by the component
-       */
-      date: this.initialDate
+      today: new Date()
     };
   },
   props: {
     /**
      * Intialize the calendar with a date.
      */
-    initialDate: {
+    date: {
       type: Date,
       required: false,
       default: () => new Date()
@@ -178,7 +174,9 @@ export default {
       return (
         calendarYear < todayYear ||
         (calendarYear === todayYear && calendarMonth < todayMonth) ||
-        (calendarMonth === todayMonth && calendarDay < todayDay)
+        (calendarYear === todayYear &&
+          calendarMonth === todayMonth &&
+          calendarDay < todayDay)
       );
     },
     /**
@@ -209,6 +207,7 @@ export default {
 }
 .calendar__cell--past {
   color: rgba(0, 0, 0, 0.26);
+  pointer-events: none;
 }
 .calendar header {
   margin-bottom: 0.5em;
