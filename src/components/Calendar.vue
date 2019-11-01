@@ -1,8 +1,8 @@
 <template>
-  <div class="calendar" :data-month="date.getUTCMonth()" :data-year="date.getUTCFullYear()">
+  <div class="calendar" :data-month="date.getMonth()" :data-year="date.getFullYear()">
     <header>
       {{ month }}&nbsp;
-      <span v-if="needsYear">{{ internalDate.getUTCFullYear() }}</span>
+      <span v-if="needsYear">{{ internalDate.getFullYear() }}</span>
     </header>
     <main>
       <ul>
@@ -70,7 +70,7 @@ export default {
     date: {
       type: Date,
       required: false,
-      default: () => new Date()
+      default: () =>  new Date()
     },
     /**
      * Determines if a calendar has month update markup
@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     /**
-     * Returns the abbreviations of the days of the week as an array.
+     * Returns the abbreviations of the days of the week as an object.
      * @returns {Object}
      */
     weekDayMap() {
@@ -105,8 +105,8 @@ export default {
      */
     days() {
       return this.getDaysInMonth(
-        this.internalDate.getUTCFullYear(),
-        this.internalDate.getUTCMonth()
+        this.internalDate.getFullYear(),
+        this.internalDate.getMonth()
       );
     },
     /**
@@ -117,8 +117,8 @@ export default {
     daysOffset() {
       const { internalDate, weekDayMap, getMonthStartDay } = this;
       const monthStartDay = getMonthStartDay(
-        internalDate.getUTCFullYear(),
-        internalDate.getUTCMonth()
+        internalDate.getFullYear(),
+        internalDate.getMonth()
       );
       return weekDayMap[monthStartDay].num;
     },
@@ -136,8 +136,8 @@ export default {
     needsYear() {
       const { internalDate, today } = this;
       return (
-        internalDate.getUTCFullYear() > today.getUTCFullYear() ||
-        internalDate.getUTCFullYear() < today.getUTCFullYear()
+        internalDate.getFullYear() > today.getFullYear() ||
+        internalDate.getFullYear() < today.getFullYear()
       );
     }
   },
@@ -180,10 +180,10 @@ export default {
      */
     isPast(calendarDay) {
       const { today, internalDate } = this;
-      const calendarYear = internalDate.getUTCFullYear();
-      const calendarMonth = internalDate.getUTCMonth();
-      const todayYear = today.getUTCFullYear();
-      const todayMonth = today.getUTCMonth();
+      const calendarYear = internalDate.getFullYear();
+      const calendarMonth = internalDate.getMonth();
+      const todayYear = today.getFullYear();
+      const todayMonth = today.getMonth();
       const todayDay = today.getDate();
       return (
         calendarYear < todayYear ||
@@ -200,8 +200,8 @@ export default {
      */
     updateMonth(n) {
       const newDate = new Date(
-        this.internalDate.getUTCFullYear(),
-        this.internalDate.getUTCMonth() + n,
+        this.internalDate.getFullYear(),
+        this.internalDate.getMonth() + n,
         1
       );
       this.internalDate = newDate;

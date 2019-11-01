@@ -20,8 +20,8 @@ export default {
       /**
        * The date object used for this instance.
        */
-      internalDate: this.date,
-    }
+      internalDate: this.date
+    };
   },
   props: {
     /**
@@ -30,7 +30,7 @@ export default {
     date: {
       type: Date,
       required: false,
-      default: () => new Date()
+      default: () => new Date(2019, 9, 31)
     }
   },
   computed: {
@@ -39,11 +39,12 @@ export default {
      * @returns {Date}
      */
     nextMonth() {
-      return new Date(
-        this.internalDate.getUTCFullYear(),
-        this.internalDate.getUTCMonth() + 1,
-        1
-      );
+      const clonedDate = new Date(+this.internalDate);
+      clonedDate.setDate(1);
+      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + 1))
+      // return new Date(
+      //   new Date(+this.internalDate).setMonth(this.internalDate.getMonth() + 1)
+      // );
     }
   },
   methods: {
@@ -54,9 +55,7 @@ export default {
      */
     updateMonth(n) {
       const newDate = new Date(
-        this.internalDate.getUTCFullYear(),
-        this.internalDate.getUTCMonth() + n,
-        1
+        this.internalDate.setMonth(this.internalDate.getMonth() + n)
       );
       this.internalDate = newDate;
     }
