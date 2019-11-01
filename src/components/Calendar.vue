@@ -26,6 +26,7 @@
             :data-day="day"
             :data-month="date.getMonth()"
             :data-year="date.getFullYear()"
+            @click="$emit('selected-date', date.getFullYear(), date.getMonth(), day)"
           >{{ day }}</button>
         </li>
       </ul>
@@ -225,6 +226,7 @@ export default {
 .calendar__cell--label {
   color: rgba(0, 0, 0, 0.54);
   font-size: 13px;
+  padding: 0.5em;
 }
 .calendar header {
   margin-bottom: 1em;

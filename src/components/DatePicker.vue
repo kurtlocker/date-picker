@@ -2,8 +2,8 @@
   <div class="date-picker">
     <calendar :date="internalDate" />
     <calendar :date="nextMonth" />
-    <button @click="updateMonth(-1)">Previous</button>
-    <button @click="updateMonth(1)">Next</button>
+    <button class="date-picker__previous-month" @click="updateMonth(-1)"></button>
+    <button class="date-picker__next-month" @click="updateMonth(1)"></button>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
     adjustedMonth(n) {
       const clonedDate = new Date(+this.internalDate);
       clonedDate.setDate(1);
-      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n))
+      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
     }
   }
 };
@@ -68,8 +68,37 @@ export default {
 <style scoped>
 .date-picker {
   display: grid;
-  grid-template-columns: 1fr;
   grid-gap: 2em;
+}
+.date-picker > button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  /* background: transparent; */
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  appearance: none;
+  border-radius: 0;
+  padding: 1em;
+  width: 100%;
+  /* outline: none; */
+  cursor: pointer;
+}
+.date-picker__previous-month {
+  /* Left chevron */
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTQuMTkgMTYuMDA1bDcuODY5IDcuODY4LTIuMTI5IDIuMTI5LTkuOTk2LTkuOTk3TDE5LjkzNyA2LjAwMmwyLjEyNyAyLjEyOXoiLz48L3N2Zz4=");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.date-picker__next-month {
+  /* Right chevron */
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTguNjI5IDE1Ljk5N2wtNy4wODMtNy4wODFMMTMuNDYyIDdsOC45OTcgOC45OTdMMTMuNDU3IDI1bC0xLjkxNi0xLjkxNnoiLz48L3N2Zz4=");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 @media screen and (min-width: 787px) {
   .date-picker {
