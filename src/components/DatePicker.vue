@@ -30,7 +30,7 @@ export default {
     date: {
       type: Date,
       required: false,
-      default: () => new Date(2019, 9, 31)
+      default: () => new Date()
     }
   },
   computed: {
@@ -39,25 +39,27 @@ export default {
      * @returns {Date}
      */
     nextMonth() {
-      const clonedDate = new Date(+this.internalDate);
-      clonedDate.setDate(1);
-      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + 1))
-      // return new Date(
-      //   new Date(+this.internalDate).setMonth(this.internalDate.getMonth() + 1)
-      // );
+      return this.adjustedMonth(1);
     }
   },
   methods: {
     /**
-     * Updates the calendar month by +|- 1.
-     * @param {Number} n The month number to shift by
+     * Updates the {@link this.internalDate} to a new date whose month has
+     * been adjusted by {@link n}.
+     * @param {Number} n The number of months to shift
      * @returns {void}
      */
     updateMonth(n) {
-      const newDate = new Date(
-        this.internalDate.setMonth(this.internalDate.getMonth() + n)
-      );
-      this.internalDate = newDate;
+      this.internalDate = this.adjustedMonth(n);
+    },
+    /**
+     * @param {Number} n The number of months to shift
+     * @returns {Date} The adjusted month date
+     */
+    adjustedMonth(n) {
+      const clonedDate = new Date(+this.internalDate);
+      clonedDate.setDate(1);
+      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n))
     }
   }
 };

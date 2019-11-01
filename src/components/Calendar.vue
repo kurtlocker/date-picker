@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar" :data-month="date.getMonth()" :data-year="date.getFullYear()">
+  <div class="calendar">
     <header>
       {{ month }}&nbsp;
       <span v-if="needsYear">{{ internalDate.getFullYear() }}</span>
@@ -18,13 +18,16 @@
         <li
           v-for="day in days"
           :key="`month-day-${day}`"
-          :class="{ 
-            'calendar__cell': true,
-            'calendar__cell--day': true,
-            'calendar__cell--past': isPast(day) 
-          }"
-          :data-day="day"
-        >{{ day }}</li>
+          class="calendar__cell calendar__cell--day"
+        >
+          <button
+            class="calendar__cell-day-button"
+            :disabled="isPast(day)"
+            :data-day="day"
+            :data-month="date.getMonth()"
+            :data-year="date.getFullYear()"
+          >{{ day }}</button>
+        </li>
       </ul>
     </main>
     <template v-if="hasMonthUpdateButtons">
@@ -70,7 +73,7 @@ export default {
     date: {
       type: Date,
       required: false,
-      default: () =>  new Date()
+      default: () => new Date()
     },
     /**
      * Determines if a calendar has month update markup
@@ -199,12 +202,16 @@ export default {
      * @returns {void}
      */
     updateMonth(n) {
-      const newDate = new Date(
-        this.internalDate.getFullYear(),
-        this.internalDate.getMonth() + n,
-        1
-      );
-      this.internalDate = newDate;
+      this.internalDate = this.adjustedMonth(n);
+    },
+    /**
+     * @param {Number} n The number of months to shift
+     * @returns {Date} The adjusted month date
+     */
+    adjustedMonth(n) {
+      const clonedDate = new Date(+this.internalDate);
+      clonedDate.setDate(1);
+      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
     }
   }
 };
@@ -219,12 +226,8 @@ export default {
   color: rgba(0, 0, 0, 0.54);
   font-size: 13px;
 }
-.calendar__cell--past {
-  color: rgba(0, 0, 0, 0.26);
-  pointer-events: none;
-}
 .calendar header {
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 .calendar main ul {
   padding: 0;
@@ -233,7 +236,30 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
-.calendar main ul li {
+.calendar main ul li button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  appearance: none;
+  border-radius: 0;
   padding: 1em;
+  width: 100%;
+  /* outline: none; */
+  cursor: pointer;
+}
+.calendar main ul li button[disabled] {
+  color: rgba(0, 0, 0, 0.26);
+  pointer-events: none;
+}
+.calendar main ul li button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
 }
 </style>
