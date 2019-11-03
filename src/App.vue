@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <date-picker /> 
+    <flights-date-picker /> 
   </div>
 </template>
 
 <script>
-import DatePicker from './components/DatePicker.vue'
+import FlightsDatePicker from './components/FlightsDatePicker.vue'
 
 export default {
   name: 'app',
   components: {
-    DatePicker
+    FlightsDatePicker,
   }
 }
 </script>
