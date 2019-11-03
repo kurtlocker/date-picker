@@ -1,9 +1,13 @@
 <template>
   <div class="date-picker">
-    <calendar :date="internalDate" />
-    <calendar :date="nextMonth" />
-    <button class="date-picker__previous-month" @click="updateMonth(-1)"></button>
-    <button class="date-picker__next-month" @click="updateMonth(1)"></button>
+    <div class="date-picker__calendars">
+      <calendar :date="internalDate" />
+      <calendar :date="nextMonth" />
+    </div>
+    <div class="date-picker__buttons">
+      <button class="date-picker__previous-month" @click="updateMonth(-1)"></button>
+      <button class="date-picker__next-month" @click="updateMonth(1)"></button>
+    </div>
   </div>
 </template>
 
@@ -67,15 +71,20 @@ export default {
 
 <style scoped>
 .date-picker {
+  position: relative;
+}
+.date-picker__calendars {
   display: grid;
   grid-gap: 2em;
 }
-.date-picker > button {
+.date-picker__buttons {
+  margin-top: 1em;
+}
+.date-picker__buttons button {
   border: none;
   margin: 0;
   padding: 0;
   overflow: visible;
-  /* background: transparent; */
   color: inherit;
   font: inherit;
   line-height: normal;
@@ -84,24 +93,23 @@ export default {
   appearance: none;
   border-radius: 0;
   padding: 1em;
-  width: 100%;
-  /* outline: none; */
   cursor: pointer;
 }
-.date-picker__previous-month {
+button.date-picker__previous-month {
   /* Left chevron */
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTQuMTkgMTYuMDA1bDcuODY5IDcuODY4LTIuMTI5IDIuMTI5LTkuOTk2LTkuOTk3TDE5LjkzNyA2LjAwMmwyLjEyNyAyLjEyOXoiLz48L3N2Zz4=");
   background-repeat: no-repeat;
   background-position: center;
+  margin-right: .5em;
 }
-.date-picker__next-month {
+button.date-picker__next-month {
   /* Right chevron */
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTguNjI5IDE1Ljk5N2wtNy4wODMtNy4wODFMMTMuNDYyIDdsOC45OTcgOC45OTdMMTMuNDU3IDI1bC0xLjkxNi0xLjkxNnoiLz48L3N2Zz4=");
   background-repeat: no-repeat;
   background-position: center;
 }
 @media screen and (min-width: 787px) {
-  .date-picker {
+  .date-picker__calendars {
     grid-template-columns: 1fr 1fr;
   }
 }
