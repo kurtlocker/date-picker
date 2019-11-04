@@ -92,21 +92,20 @@ export default {
   -moz-osx-font-smoothing: inherit;
   appearance: none;
   border-radius: 0;
-  padding: 1em;
+  padding: .8em;
   cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 button.date-picker__previous-month {
   /* Left chevron */
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTQuMTkgMTYuMDA1bDcuODY5IDcuODY4LTIuMTI5IDIuMTI5LTkuOTk2LTkuOTk3TDE5LjkzNyA2LjAwMmwyLjEyNyAyLjEyOXoiLz48L3N2Zz4=");
-  background-repeat: no-repeat;
-  background-position: center;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAB00lEQVRoge3ayWsTYRiA8R8iwTZQ49JNbet2cjv5F/sXqCdFrd7c2roVo61K1IMbeNZTPUwGwXFM8ga/mQx54L0F8jyZ4c2EL0yZ0jhauIItrFXsEqaFq9jrzzusVmoUoIVrfkfk8xYrFXqNRFlEPj2crMhtaAZF5LOL4xU5DqSF6wZH5LOjhjEHcMPwEfl0ZR9ALZjBTaNH7OEb2umVi8zglljEd1xOr1xkVkMibotFfMWl9MpFZnFHPOJieuUibayLRXxRo4i74hEX0isXGSfiM86nVy7Sxj0THnEQ98UjzqVXLjJOxCc1inggFvERZ9MrF+ngoVjEBw2JOJNe+e9EV2wPp/633L4RXvsz+B4/+lMb5sQ31WscS69czpz4xnqF5fTK5YyzfmsZE91gXSylVy6ng0diMS+xmF65nA4ei8U8w9H0yuWME/MUR9Irl3MIG2IxT9QwZlNDYubxXCxmC4fTK5czjxcaErMgHrMpu01rwwK2xWI21CxmSfZNHolZr8D3nyzLnrFGDelWITuIRdljybAR73G6EtMhGPY260nwi3JcTuCNCY/IWZEdRf8ZsWuCjqdzVmV/EsgjdmRXayJZkwVsq+EJ7qjs78+UxvELSX0b6Obam+UAAAAASUVORK5CYII=");
   margin-right: .5em;
 }
 button.date-picker__next-month {
   /* Right chevron */
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTguNjI5IDE1Ljk5N2wtNy4wODMtNy4wODFMMTMuNDYyIDdsOC45OTcgOC45OTdMMTMuNDU3IDI1bC0xLjkxNi0xLjkxNnoiLz48L3N2Zz4=");
-  background-repeat: no-repeat;
-  background-position: center;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAABuUlEQVRoge3YW08TURSG4UfvaBOLRioqMXiKpz9PvFbRG1E8JGAUxEQBo/APjImJXpQGZDLMdFX27Kl9k3XVTuZ7s5q1dxdTpmTLDB7iM+42nCVMB4/w+6C+406jiQJ08MShxLC+4XaDuUaig8eKEsPaw73G0tWkrBPH6ytuNZSxkq56EkdlbjaStIIl9SWGtYPrpx3s7Ijf/xl4xzUsYzHw7Kkx4+9xm11nRqFqYv03Mtsy+5nVHcOtkVkWk/mEq+kjl9MVl9mSocxTcZkryROfQBfPxGQ+ykzmHFbEZDZxOX3kcnp4YYJkXorJbGA+feRyJkpmFqtiMmu4mD5yORfwVkzmDc7Uecmo1/gIv/Aj+GxfmoyV9PBcrBv7eJA+cpGe+Jmyh/vpIxcZ5yzJZgMzKz52s9m8jCOxKyOJ6JmxK5O10Xm8EpPYMSESN9JHLjJncJWISGzLZKMyh3Utl+iLS3yRyQalj3diEltYSB+5yLgS2WxMotfxTZktFyL3pw2Z/Q9ncGa81uJOHKXu2M2yE8epkmmFxJA+3itKrB981iou4YNDiTWDbrWSeYOxvCKz9c2UKf+AP45PDnfqQ+j+AAAAAElFTkSuQmCC");
 }
 @media screen and (min-width: 787px) {
   .date-picker__calendars {
