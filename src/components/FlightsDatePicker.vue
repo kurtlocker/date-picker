@@ -8,9 +8,35 @@
 import DatePicker from "./DatePicker.vue";
 
 export default {
-  name: 'FlightsDatePicker',
+  name: "FlightsDatePicker",
   components: {
-    DatePicker,
+    DatePicker
   }
-}
+};
 </script>
+
+<style scoped>
+.flights-date-picker >>> .calendar__cell--day button {
+  position: relative;
+}
+.flights-date-picker >>> .calendar__cell--day button:hover {
+  color: white;
+}
+.flights-date-picker >>> .calendar__cell--day button:hover:after {
+  content: "";
+  border-radius: 100%;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 44px;
+  margin: auto;
+  position: absolute;
+  background-color: #4285f4;
+  transform: scale(1);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 44px;
+  z-index: -1;
+}
+</style>
