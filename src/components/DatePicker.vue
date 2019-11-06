@@ -97,6 +97,7 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  background-color: inherit;
 }
 button.date-picker__previous-month {
   /* Left chevron */

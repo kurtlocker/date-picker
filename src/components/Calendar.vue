@@ -21,12 +21,12 @@
           class="calendar__cell calendar__cell--day"
         >
           <button
-            class="calendar__cell-day-button"
+            :class="getClasses(day)"
             :disabled="isPast(day)"
             :data-day="day"
             :data-month="date.getMonth()"
             :data-year="date.getFullYear()"
-            @click="$emit('selected-date', date.getFullYear(), date.getMonth(), day)"
+            @click="handleButtonSelect(date, day)"
           >{{ day }}</button>
         </li>
       </ul>
@@ -54,7 +54,11 @@ export default {
       /**
        * The date object used for this instance.
        */
-      internalDate: this.date
+      internalDate: this.date,
+      /**
+       * @type {Number}
+       */
+      selectedDay: null
     };
   },
   watch: {
@@ -147,6 +151,16 @@ export default {
   },
   methods: {
     /**
+     * The computed classes for the button.
+     * @returns {Object}
+     */
+    getClasses(day) {
+      return {
+        "calendar__cell-day-button": true,
+        "calendar__cell-day-button--selected": this.selectedDay === day
+      };
+    },
+    /**
      * Get the number of days of the given {@link month} of {@link year}.
      * @param {Number} year
      * @param {Number} month
@@ -213,6 +227,20 @@ export default {
       const clonedDate = new Date(+this.internalDate);
       clonedDate.setDate(1);
       return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
+    },
+    /**
+     * Emits the selected-date event.
+     * @param {Date} internalDateObj The internal date object associated
+     * @param {Number} daySelected The day selected
+     */
+    handleButtonSelect(internalDateObj, daySelected) {
+      this.selectedDay = daySelected;
+      this.$emit(
+        "selected-date",
+        internalDateObj.getFullYear(),
+        internalDateObj.getMonth(),
+        daySelected
+      );
     }
   }
 };
