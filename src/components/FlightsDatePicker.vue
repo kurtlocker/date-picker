@@ -16,6 +16,9 @@ export default {
 </script>
 
 <style scoped>
+.flights-date-picker >>> .calendar {
+  font-weight: 500;
+}
 .flights-date-picker >>> .calendar__cell-day-button {
   position: relative;
   outline: none;

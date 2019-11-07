@@ -21,7 +21,7 @@
           class="calendar__cell calendar__cell--day"
         >
           <button
-            :class="getClasses(day)"
+            :class="getClasses(date, day)"
             :disabled="isPast(day)"
             :data-day="day"
             :data-month="date.getMonth()"
@@ -55,10 +55,8 @@ export default {
        * The date object used for this instance.
        */
       internalDate: this.date,
-      /**
-       * @type {Number}
-       */
-      selectedDay: null
+      selectedEarlierDate: null,
+      selectedLaterDate: null
     };
   },
   watch: {
@@ -152,12 +150,17 @@ export default {
   methods: {
     /**
      * The computed classes for the button.
+     * @param {Date} internalDateObj The internal date object associated
+     * @param {Number} daySelected The day selected
      * @returns {Object}
      */
-    getClasses(day) {
+    getClasses(internalDateObj, daySelected) {
       return {
         "calendar__cell-day-button": true,
-        "calendar__cell-day-button--selected": this.selectedDay === day
+        "calendar__cell-day-button--selected": this.isSelectedDate(
+          internalDateObj,
+          daySelected
+        )
       };
     },
     /**
@@ -220,6 +223,8 @@ export default {
       this.internalDate = this.adjustedMonth(n);
     },
     /**
+     * Returns a new date from adjusting {@link this.internalDate} by
+     * {@link n} months.
      * @param {Number} n The number of months to shift
      * @returns {Date} The adjusted month date
      */
@@ -234,12 +239,81 @@ export default {
      * @param {Number} daySelected The day selected
      */
     handleButtonSelect(internalDateObj, daySelected) {
-      this.selectedDay = daySelected;
-      this.$emit(
-        "selected-date",
+      const selectedYear = internalDateObj.getFullYear();
+      const selectedMonth = internalDateObj.getMonth();
+      const selectedDate = new Date(selectedYear, selectedMonth, daySelected);
+      if (
+        !this.selectedEarlierDate ||
+        this.isEarlierDate(selectedDate, this.selectedEarlierDate)
+      ) {
+        this.selectedEarlierDate = selectedDate;
+      } else if (
+        !this.selectedLaterDate ||
+        this.isLaterDate(selectedDate, this.selectedLaterDate)
+      ) {
+        this.selectedLaterDate = selectedDate;
+      }
+      this.$emit("selected-date", selectedYear, selectedMonth, daySelected);
+    },
+    /**
+     * Determines if {@link date} is earlier than {@link compareDate}.
+     * @param {Date} date The date to compare against {@link compareDate}
+     * @param {Date} compareDate The date to compare against {@link date}
+     * @returns {Boolean}
+     */
+    isEarlierDate(date, compareDate) {
+      return (
+        date.getFullYear() < compareDate.getFullYear() ||
+        date.getMonth() < compareDate.getMonth() ||
+        (date.getMonth() === compareDate.getMonth() &&
+          date.getDate() < compareDate.getDate())
+      );
+    },
+    /**
+     * Determines if {@link date} is later than {@link compareDate}.
+     * @param {Date} date The date to compare against {@link compareDate}
+     * @param {Date} compareDate The date to compare against {@link date}
+     * @returns {Boolean}
+     */
+    isLaterDate(date, compareDate) {
+      return (
+        date.getFullYear() > compareDate.getFullYear() ||
+        date.getMonth() > compareDate.getMonth() ||
+        (date.getMonth() === compareDate.getMonth() &&
+          date.getDate() > compareDate.getDate())
+      );
+    },
+    /**
+     * Determines if {@link date} is the same date as {@link compareDate}.
+     * @param {Date} date The date to compare against {@link compareDate}
+     * @param {Date} compareDate The date to compare against {@link date}
+     * @returns {Boolean}
+     */
+    isSameDate(date, compareDate) {
+      return (
+        date.getFullYear() === compareDate.getFullYear() &&
+        date.getMonth() === compareDate.getMonth() &&
+        date.getDate() === compareDate.getDate()
+      );
+    },
+    /**
+     * If the selectedDate matches the {@link selectedEarlierDate} or
+     * the {@link selectedLaterDate}, we set an appropriate class for this
+     * date.
+     * @param {Date} internalDateObj The internal date object associated
+     * @param {Number} daySelected The day selected
+     */
+    isSelectedDate(internalDateObj, daySelected) {
+      const selectedDate = new Date(
         internalDateObj.getFullYear(),
         internalDateObj.getMonth(),
         daySelected
+      );
+      return (
+        (this.selectedEarlierDate &&
+          this.isSameDate(selectedDate, this.selectedEarlierDate)) ||
+        (this.selectedLaterDate &&
+          this.isSameDate(selectedDate, this.selectedLaterDate))
       );
     }
   }
