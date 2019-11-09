@@ -13,12 +13,14 @@
 
 <script>
 import Calendar from "./Calendar.vue";
+import dateMixin from '../mixins/date';
 
 export default {
   name: "DatePicker",
   components: {
     Calendar
   },
+  mixins: [dateMixin],
   data() {
     return {
       /**
@@ -56,15 +58,6 @@ export default {
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n);
     },
-    /**
-     * @param {Number} n The number of months to shift
-     * @returns {Date} The adjusted month date
-     */
-    adjustedMonth(n) {
-      const clonedDate = new Date(+this.internalDate);
-      clonedDate.setDate(1);
-      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
-    }
   }
 };
 </script>

@@ -22,7 +22,7 @@
         >
           <button
             :class="getClasses(date, day)"
-            :disabled="isPast(day)"
+            :disabled="isPast(day, date, today)"
             :data-day="day"
             :data-month="date.getMonth()"
             :data-year="date.getFullYear()"
@@ -43,8 +43,11 @@
 </template>
 
 <script>
+import dateMixin from '../mixins/date';
+
 export default {
   name: "Calendar",
+  mixins: [dateMixin],
   data() {
     return {
       /**
@@ -164,74 +167,12 @@ export default {
       };
     },
     /**
-     * Get the number of days of the given {@link month} of {@link year}.
-     * @param {Number} year
-     * @param {Number} month
-     * @returns {Number} Number of days in month
-     */
-    getDaysInMonth(year, month) {
-      return new Date(year, month + 1, 0).getDate();
-    },
-    /**
-     * Returns the localized week day name.
-     * @param {Date} date The date object
-     * @param {String} form The form we want the weekday name in
-     *  narrow = 'M'
-     *  long = 'Monday'
-     * @returns {String} The localized week day name
-     */
-    getWeekDay(date, form) {
-      return date.toLocaleDateString(undefined, { weekday: form });
-    },
-    /**
-     * Returns the localized weekday name for the given year and month.
-     * @param {Number} year
-     * @param {Number} month
-     * @return {String}
-     */
-    getMonthStartDay(year, month) {
-      const date = new Date(year, month, 1);
-      return this.getWeekDay(date, "long");
-    },
-    /**
-     * Determines if a given calendarDay is in the past by comparing it to
-     * today's date.
-     * @param {Number} calendarDay
-     * @return {Boolean}
-     */
-    isPast(calendarDay) {
-      const { today, internalDate } = this;
-      const calendarYear = internalDate.getFullYear();
-      const calendarMonth = internalDate.getMonth();
-      const todayYear = today.getFullYear();
-      const todayMonth = today.getMonth();
-      const todayDay = today.getDate();
-      return (
-        calendarYear < todayYear ||
-        (calendarYear === todayYear && calendarMonth < todayMonth) ||
-        (calendarYear === todayYear &&
-          calendarMonth === todayMonth &&
-          calendarDay < todayDay)
-      );
-    },
-    /**
      * Updates the calendar month by +|- 1.
      * @param {Number} n The month number to shift by
      * @returns {void}
      */
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n);
-    },
-    /**
-     * Returns a new date from adjusting {@link this.internalDate} by
-     * {@link n} months.
-     * @param {Number} n The number of months to shift
-     * @returns {Date} The adjusted month date
-     */
-    adjustedMonth(n) {
-      const clonedDate = new Date(+this.internalDate);
-      clonedDate.setDate(1);
-      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
     },
     /**
      * Emits the selected-date event.
@@ -254,47 +195,6 @@ export default {
         this.selectedLaterDate = selectedDate;
       }
       this.$emit("selected-date", selectedYear, selectedMonth, daySelected);
-    },
-    /**
-     * Determines if {@link date} is earlier than {@link compareDate}.
-     * @param {Date} date The date to compare against {@link compareDate}
-     * @param {Date} compareDate The date to compare against {@link date}
-     * @returns {Boolean}
-     */
-    isEarlierDate(date, compareDate) {
-      return (
-        date.getFullYear() < compareDate.getFullYear() ||
-        date.getMonth() < compareDate.getMonth() ||
-        (date.getMonth() === compareDate.getMonth() &&
-          date.getDate() < compareDate.getDate())
-      );
-    },
-    /**
-     * Determines if {@link date} is later than {@link compareDate}.
-     * @param {Date} date The date to compare against {@link compareDate}
-     * @param {Date} compareDate The date to compare against {@link date}
-     * @returns {Boolean}
-     */
-    isLaterDate(date, compareDate) {
-      return (
-        date.getFullYear() > compareDate.getFullYear() ||
-        date.getMonth() > compareDate.getMonth() ||
-        (date.getMonth() === compareDate.getMonth() &&
-          date.getDate() > compareDate.getDate())
-      );
-    },
-    /**
-     * Determines if {@link date} is the same date as {@link compareDate}.
-     * @param {Date} date The date to compare against {@link compareDate}
-     * @param {Date} compareDate The date to compare against {@link date}
-     * @returns {Boolean}
-     */
-    isSameDate(date, compareDate) {
-      return (
-        date.getFullYear() === compareDate.getFullYear() &&
-        date.getMonth() === compareDate.getMonth() &&
-        date.getDate() === compareDate.getDate()
-      );
     },
     /**
      * If the selectedDate matches the {@link selectedEarlierDate} or
