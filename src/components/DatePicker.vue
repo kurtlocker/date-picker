@@ -1,7 +1,7 @@
 <template>
   <div class="date-picker">
     <div class="date-picker__calendars">
-      <calendar :date="internalDate" />
+      <calendar @date-clicked="handleDateClicked" :date="internalDate" />
       <calendar :date="nextMonth" />
     </div>
     <div class="date-picker__buttons">
@@ -58,6 +58,10 @@ export default {
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n);
     },
+    handleDateClicked(year, month, day) {
+      // eslint-disable-next-line no-console
+      console.log(year, month, day);
+    }
   }
 };
 </script>

@@ -26,7 +26,7 @@
             :data-day="day"
             :data-month="date.getMonth()"
             :data-year="date.getFullYear()"
-            @click="handleButtonSelect(date, day)"
+            @click="handleButtonSelect(day)"
           >{{ day }}</button>
         </li>
       </ul>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import dateMixin from '../mixins/date';
+import dateMixin from "../mixins/date";
 
 export default {
   name: "Calendar",
@@ -58,8 +58,6 @@ export default {
        * The date object used for this instance.
        */
       internalDate: this.date,
-      selectedEarlierDate: null,
-      selectedLaterDate: null
     };
   },
   watch: {
@@ -153,17 +151,11 @@ export default {
   methods: {
     /**
      * The computed classes for the button.
-     * @param {Date} internalDateObj The internal date object associated
-     * @param {Number} daySelected The day selected
      * @returns {Object}
      */
-    getClasses(internalDateObj, daySelected) {
+    getClasses() {
       return {
         "calendar__cell-day-button": true,
-        "calendar__cell-day-button--selected": this.isSelectedDate(
-          internalDateObj,
-          daySelected
-        )
       };
     },
     /**
@@ -175,47 +167,17 @@ export default {
       this.internalDate = this.adjustedMonth(n);
     },
     /**
-     * Emits the selected-date event.
-     * @param {Date} internalDateObj The internal date object associated
+     * Emits the date-clicked event.
      * @param {Number} daySelected The day selected
      */
-    handleButtonSelect(internalDateObj, daySelected) {
-      const selectedYear = internalDateObj.getFullYear();
-      const selectedMonth = internalDateObj.getMonth();
-      const selectedDate = new Date(selectedYear, selectedMonth, daySelected);
-      if (
-        !this.selectedEarlierDate ||
-        this.isEarlierDate(selectedDate, this.selectedEarlierDate)
-      ) {
-        this.selectedEarlierDate = selectedDate;
-      } else if (
-        !this.selectedLaterDate ||
-        this.isLaterDate(selectedDate, this.selectedLaterDate)
-      ) {
-        this.selectedLaterDate = selectedDate;
-      }
-      this.$emit("selected-date", selectedYear, selectedMonth, daySelected);
-    },
-    /**
-     * If the selectedDate matches the {@link selectedEarlierDate} or
-     * the {@link selectedLaterDate}, we set an appropriate class for this
-     * date.
-     * @param {Date} internalDateObj The internal date object associated
-     * @param {Number} daySelected The day selected
-     */
-    isSelectedDate(internalDateObj, daySelected) {
-      const selectedDate = new Date(
-        internalDateObj.getFullYear(),
-        internalDateObj.getMonth(),
+    handleButtonSelect(daySelected) {
+      this.$emit(
+        "date-clicked",
+        this.internalDate.getFullYear(),
+        this.internalDate.getMonth(),
         daySelected
       );
-      return (
-        (this.selectedEarlierDate &&
-          this.isSameDate(selectedDate, this.selectedEarlierDate)) ||
-        (this.selectedLaterDate &&
-          this.isSameDate(selectedDate, this.selectedLaterDate))
-      );
-    }
+    },
   }
 };
 </script>
