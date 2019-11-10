@@ -7,7 +7,7 @@ export default {
      * Determines if {@link date} is earlier than {@link compareDate}.
      * @param {Date} date The date to compare against {@link compareDate}
      * @param {Date} compareDate The date to compare against {@link date}
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     isEarlierDate(date, compareDate) {
       return (
@@ -21,7 +21,7 @@ export default {
      * Determines if {@link date} is later than {@link compareDate}.
      * @param {Date} date The date to compare against {@link compareDate}
      * @param {Date} compareDate The date to compare against {@link date}
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     isLaterDate(date, compareDate) {
       return (
@@ -35,7 +35,7 @@ export default {
      * Determines if {@link date} is the same date as {@link compareDate}.
      * @param {Date} date The date to compare against {@link compareDate}
      * @param {Date} compareDate The date to compare against {@link date}
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     isSameDate(date, compareDate) {
       return (
@@ -48,7 +48,7 @@ export default {
      * Returns a new date from adjusting {@link this.internalDate} by
      * {@link n} months.
      * @param {Number} n The number of months to shift
-     * @returns {Date} The adjusted month date
+     * @return {Date} The adjusted month date
      */
     adjustedMonth(n) {
       const clonedDate = new Date(+this.internalDate);
@@ -82,7 +82,7 @@ export default {
      * Get the number of days of the given {@link month} of {@link year}.
      * @param {Number} year
      * @param {Number} month
-     * @returns {Number} Number of days in month
+     * @return {Number} Number of days in month
      */
     getDaysInMonth(year, month) {
       return new Date(year, month + 1, 0).getDate();
@@ -103,7 +103,7 @@ export default {
      * @param {String} form The form we want the weekday name in
      *  narrow = 'M'
      *  long = 'Monday'
-     * @returns {String} The localized week day name
+     * @return {String} The localized week day name
      */
     getWeekDay(date, form) {
       return date.toLocaleDateString(undefined, { weekday: form });

@@ -91,7 +91,7 @@ export default {
   computed: {
     /**
      * Returns the abbreviations of the days of the week as an object.
-     * @returns {Object}
+     * @return {Object}
      */
     weekDayMap() {
       const baseDate = new Date(Date.UTC(2017, 0, 2)); // Random Sunday
@@ -108,7 +108,7 @@ export default {
     },
     /**
      * Returns the number of days in the month.
-     * @returns {Number}
+     * @return {Number}
      */
     days() {
       return this.getDaysInMonth(
@@ -119,7 +119,7 @@ export default {
     /**
      * The number of days to offset before day 1 of the month starts.
      * Corresponds with blank cells in the calendar month.
-     * @returns {Number}
+     * @return {Number}
      */
     daysOffset() {
       const { internalDate, weekDayMap, getMonthStartDay } = this;
@@ -131,14 +131,14 @@ export default {
     },
     /**
      * The name of the month
-     * @returns {String}
+     * @return {String}
      */
     month() {
       return this.internalDate.toLocaleString("default", { month: "long" });
     },
     /**
      * Determines if we should display the year.
-     * @returns {Boolean}
+     * @return {Boolean}
      */
     needsYear() {
       const { internalDate, today } = this;
@@ -151,7 +151,7 @@ export default {
   methods: {
     /**
      * The computed classes for the button.
-     * @returns {Object}
+     * @return {Object}
      */
     getClasses() {
       return {
@@ -161,7 +161,7 @@ export default {
     /**
      * Updates the calendar month by +|- 1.
      * @param {Number} n The month number to shift by
-     * @returns {void}
+     * @return {void}
      */
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n);

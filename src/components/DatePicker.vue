@@ -13,7 +13,7 @@
 
 <script>
 import Calendar from "./Calendar.vue";
-import dateMixin from '../mixins/date';
+import dateMixin from "../mixins/date";
 
 export default {
   name: "DatePicker",
@@ -25,8 +25,19 @@ export default {
     return {
       /**
        * The date object used for this instance.
+       * @type {Date}
        */
-      internalDate: this.date
+      internalDate: this.date,
+      /**
+       * One of two selected dates.
+       * @type {Date}
+       */
+      selectedDateOne: null,
+      /**
+       * One of two selected dates.
+       * @type {Date}
+       */
+      selectedDateTwo: null
     };
   },
   props: {
@@ -42,7 +53,7 @@ export default {
   computed: {
     /**
      * Returns a new date whose month is +1 of {@link this.internalDate}.
-     * @returns {Date}
+     * @return {Date}
      */
     nextMonth() {
       return this.adjustedMonth(1);
@@ -53,15 +64,24 @@ export default {
      * Updates the {@link this.internalDate} to a new date whose month has
      * been adjusted by {@link n}.
      * @param {Number} n The number of months to shift
-     * @returns {void}
+     * @return {void}
      */
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n);
     },
+    /**
+     * Emits the date-selected event.
+     *
+     * @param   {Number}  year   The selected year
+     * @param   {Number}  month  The selected month
+     * @param   {Number}  day    The selected day
+     *
+     * @return  {void}
+     */
     handleDateClicked(year, month, day) {
       // eslint-disable-next-line no-console
       console.log(year, month, day);
-    }
+    },
   }
 };
 </script>
@@ -89,7 +109,7 @@ export default {
   -moz-osx-font-smoothing: inherit;
   appearance: none;
   border-radius: 0;
-  padding: .8em;
+  padding: 0.8em;
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
@@ -99,7 +119,7 @@ export default {
 button.date-picker__previous-month {
   /* Left chevron */
   background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUwIDUwIiBoZWlnaHQ9IjUwcHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MCA1MCIgd2lkdGg9IjUwcHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iNTAiIHdpZHRoPSI1MCIvPjxwb2x5Z29uIHBvaW50cz0iMzUsNDcuMjUgMzcuMDg2LDQ1LjE2NCAxNi45MjIsMjUgMzcuMDg2LDQuODM2IDM1LDIuNzUgMTIuNzUsMjUgIi8+PHJlY3QgZmlsbD0ibm9uZSIgaGVpZ2h0PSI1MCIgd2lkdGg9IjUwIi8+PC9zdmc+");
-  margin-right: .5em;
+  margin-right: 0.5em;
 }
 button.date-picker__next-month {
   /* Right chevron */
