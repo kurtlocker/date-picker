@@ -4,6 +4,7 @@
       <calendar
         v-for="n in months"
         @date-selected="handleDateSelected"
+        :dates-selected="datesSelected"
         :date="adjustedMonth(n - 1, internalDate)"
         :key="`calendar-month-${n - 1}`"
       />
@@ -31,17 +32,7 @@ export default {
        * The date object used for this instance.
        * @type {Date}
        */
-      internalDate: this.date,
-      /**
-       * One of two selected dates.
-       * @type {Date}
-       */
-      selectedDateOne: null,
-      /**
-       * One of two selected dates.
-       * @type {Date}
-       */
-      selectedDateTwo: null
+      internalDate: this.date
     };
   },
   props: {
@@ -59,7 +50,15 @@ export default {
     months: {
       type: Number,
       required: false,
-      default: 2,
+      default: 2
+    },
+    /**
+     * An array of date objects that communicate to the calendars which
+     * days should be in a "selected" state.
+     */
+    datesSelected: {
+      type: Array,
+      required: true
     }
   },
   computed: {
@@ -91,7 +90,7 @@ export default {
      * @return  {void}
      */
     handleDateSelected(year, month, day) {
-      this.$emit(year, month, day);
+      this.$emit("date-selected", year, month, day);
     }
   }
 };

@@ -21,11 +21,11 @@
           class="calendar__cell calendar__cell--day"
         >
           <button
-            :class="getClasses(date, day)"
-            :disabled="isPast(day, date, today)"
+            :class="getClasses(day)"
+            :disabled="isPast(day, internalDate, today)"
             :data-day="day"
-            :data-month="date.getMonth()"
-            :data-year="date.getFullYear()"
+            :data-month="internalDate.getMonth()"
+            :data-year="internalDate.getFullYear()"
             @click="handleButtonSelect(day)"
           >{{ day }}</button>
         </li>
@@ -57,7 +57,7 @@ export default {
       /**
        * The date object used for this instance.
        */
-      internalDate: this.date,
+      internalDate: this.date
     };
   },
   watch: {
@@ -86,6 +86,14 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    /**
+     * An array of date objects that communicate to the calendars which
+     * days should be in a "selected" state.
+     */
+    datesSelected: {
+      type: Array,
+      required: true
     }
   },
   computed: {
@@ -151,12 +159,30 @@ export default {
   methods: {
     /**
      * The computed classes for the button.
+     * @param {Number} day The day of the month
      * @return {Object}
      */
-    getClasses() {
+    getClasses(day) {
       return {
         "calendar__cell-day-button": true,
+        "calendar__cell-day-button--selected": this.isSelected(day)
       };
+    },
+    /**
+     * Determines if the given day of the calendar month is in a selected
+     * state. Cross checks {@link this.datesSelected} array of date objects.
+     *
+     * @param   {Number}  day  The day of the month
+     *
+     * @return  {Boolean}       Is the date selected?
+     */
+    isSelected(day) {
+      return this.datesSelected.some(
+        date =>
+          date && date.getFullYear() === this.internalDate.getFullYear() &&
+          date && date.getMonth() === this.internalDate.getMonth() &&
+          date && date.getDate() === day
+      );
     },
     /**
      * Updates the calendar month by +|- 1.
@@ -167,17 +193,17 @@ export default {
       this.internalDate = this.adjustedMonth(n, this.internalDate);
     },
     /**
-     * Emits the date-clicked event.
+     * Emits the date-selected event.
      * @param {Number} daySelected The day selected
      */
     handleButtonSelect(daySelected) {
       this.$emit(
-        "date-clicked",
+        "date-selected",
         this.internalDate.getFullYear(),
         this.internalDate.getMonth(),
         daySelected
       );
-    },
+    }
   }
 };
 </script>
