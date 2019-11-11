@@ -45,13 +45,14 @@ export default {
       );
     },
     /**
-     * Returns a new date from adjusting {@link this.internalDate} by
+     * Returns a new date from adjusting {@link date} by
      * {@link n} months.
      * @param {Number} n The number of months to shift
+     * @param {Date} date The date to adjust.
      * @return {Date} The adjusted month date
      */
-    adjustedMonth(n) {
-      const clonedDate = new Date(+this.internalDate);
+    adjustedMonth(n, date) {
+      const clonedDate = new Date(+date);
       clonedDate.setDate(1);
       return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
     },

@@ -164,7 +164,7 @@ export default {
      * @return {void}
      */
     updateMonth(n) {
-      this.internalDate = this.adjustedMonth(n);
+      this.internalDate = this.adjustedMonth(n, this.internalDate);
     },
     /**
      * Emits the date-clicked event.

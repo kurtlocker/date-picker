@@ -1,8 +1,12 @@
 <template>
   <div class="date-picker">
     <div class="date-picker__calendars">
-      <calendar @date-clicked="handleDateClicked" :date="internalDate" />
-      <calendar :date="nextMonth" />
+      <calendar
+        v-for="n in months"
+        @date-selected="handleDateSelected"
+        :date="adjustedMonth(n - 1, internalDate)"
+        :key="`calendar-month-${n - 1}`"
+      />
     </div>
     <div class="date-picker__buttons">
       <button class="date-picker__previous-month" @click="updateMonth(-1)"></button>
@@ -48,6 +52,14 @@ export default {
       type: Date,
       required: false,
       default: () => new Date()
+    },
+    /**
+     * The number of months to show. Begins with {@link this.internalDate}.
+     */
+    months: {
+      type: Number,
+      required: false,
+      default: 2,
     }
   },
   computed: {
@@ -56,7 +68,7 @@ export default {
      * @return {Date}
      */
     nextMonth() {
-      return this.adjustedMonth(1);
+      return this.adjustedMonth(1, this.internalDate);
     }
   },
   methods: {
@@ -67,7 +79,7 @@ export default {
      * @return {void}
      */
     updateMonth(n) {
-      this.internalDate = this.adjustedMonth(n);
+      this.internalDate = this.adjustedMonth(n, this.internalDate);
     },
     /**
      * Emits the date-selected event.
@@ -78,10 +90,9 @@ export default {
      *
      * @return  {void}
      */
-    handleDateClicked(year, month, day) {
-      // eslint-disable-next-line no-console
-      console.log(year, month, day);
-    },
+    handleDateSelected(year, month, day) {
+      this.$emit(year, month, day);
+    }
   }
 };
 </script>
