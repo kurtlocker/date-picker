@@ -12,8 +12,10 @@ export default {
     isEarlierDate(date, compareDate) {
       return (
         date.getFullYear() < compareDate.getFullYear() ||
-        date.getMonth() < compareDate.getMonth() ||
-        (date.getMonth() === compareDate.getMonth() &&
+        (date.getFullYear() === compareDate.getFullYear() &&
+          date.getMonth() < compareDate.getMonth()) ||
+        (date.getFullYear() === compareDate.getFullYear() &&
+          date.getMonth() === compareDate.getMonth() &&
           date.getDate() < compareDate.getDate())
       );
     },
@@ -26,8 +28,10 @@ export default {
     isLaterDate(date, compareDate) {
       return (
         date.getFullYear() > compareDate.getFullYear() ||
-        date.getMonth() > compareDate.getMonth() ||
-        (date.getMonth() === compareDate.getMonth() &&
+        (date.getFullYear() === compareDate.getFullYear() &&
+          date.getMonth() > compareDate.getMonth()) ||
+        (date.getFullYear() === compareDate.getFullYear() &&
+          date.getMonth() === compareDate.getMonth() &&
           date.getDate() > compareDate.getDate())
       );
     },
@@ -108,6 +112,6 @@ export default {
      */
     getWeekDay(date, form) {
       return date.toLocaleDateString(undefined, { weekday: form });
-    },
+    }
   }
 };
