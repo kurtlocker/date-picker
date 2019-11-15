@@ -19,17 +19,10 @@
           :key="`day-offset-${i}`"
         ></li>
         <!-- Day numbers -->
-        <li
-          v-for="day in days"
-          :key="`month-day-${day}`"
-          class="calendar__cell calendar__cell--day"
-        >
+        <li v-for="day in days" :key="`month-day-${day}`" :class="getClasses(day)">
           <button
-            :class="getClasses(day)"
+            class="calendar__day-button"
             :disabled="isPast(day, internalDate, today)"
-            :data-day="day"
-            :data-month="internalDate.getMonth()"
-            :data-year="internalDate.getFullYear()"
             @click="handleButtonSelect(day)"
           >{{ day }}</button>
         </li>
@@ -163,7 +156,7 @@ export default {
   },
   methods: {
     /**
-     * The computed classes for the button.
+     * The computed classes for the calendar cell..
      * @param {Number} day The day of the month
      * @return {Object}
      */
@@ -171,7 +164,7 @@ export default {
       return this.datesSelected.reduce(
         (classes, obj) => {
           if (this.isSelected(obj.date, day)) {
-            classes["calendar__day-button--selected"] = true;
+            classes["calendar__cell--selected"] = true;
             if (obj.class) {
               classes[obj.class] = true;
             }
@@ -179,7 +172,13 @@ export default {
           return classes;
         },
         {
-          "calendar__day-button": true
+          calendar__cell: true,
+          "calendar__cell--day": true,
+          "calendar__cell--disabled": this.isPast(
+            day,
+            this.internalDate,
+            this.today
+          )
         }
       );
     },

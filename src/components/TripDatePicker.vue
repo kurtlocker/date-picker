@@ -133,14 +133,17 @@ export default {
   font-weight: 500;
 }
 .trip-date-picker >>> .calendar__day-button {
-  position: relative;
   outline: none;
 }
-.trip-date-picker >>> .calendar__day-button:hover {
+.trip-date-picker >>> .calendar__cell--day {
+  position: relative;
+}
+.trip-date-picker >>> .calendar__cell--day:hover {
   color: inherit;
 }
-.trip-date-picker >>> .calendar__day-button--selected:after,
-.trip-date-picker >>> .calendar__day-button:hover:after {
+.trip-date-picker >>> .calendar__cell--selected:after,
+.trip-date-picker
+  >>> .calendar__cell--day:not(.calendar__cell--disabled):hover:after {
   content: "";
   border: 2px solid #4285f4;
   border-radius: 100%;
@@ -157,13 +160,13 @@ export default {
   width: 44px;
   z-index: -1;
 }
-.trip-date-picker >>> .calendar__day-button--selected {
+.trip-date-picker >>> .calendar__cell--selected {
   color: white;
 }
-.trip-date-picker >>> .calendar__day-button--selected:after {
+.trip-date-picker >>> .calendar__cell--selected:after {
   background-color: #4285f4;
 }
-.trip-date-picker >>> .calendar__day-button--selected:hover:after {
+.trip-date-picker >>> .calendar__cell--selected:hover:after {
   background-color: inherit;
 }
 </style>
