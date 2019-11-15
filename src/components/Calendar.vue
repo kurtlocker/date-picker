@@ -13,7 +13,11 @@
           :key="`day-abbr-${i}`"
         >{{ label.narrow }}</li>
         <!-- Days offset (blank grid cells) -->
-        <li v-for="(day, i) in daysOffset" :key="`day-offset-${i}`"></li>
+        <li
+          v-for="(day, i) in daysOffset"
+          class="calendar__cell calendar__cell--blank"
+          :key="`day-offset-${i}`"
+        ></li>
         <!-- Day numbers -->
         <li
           v-for="day in days"
@@ -88,8 +92,9 @@ export default {
       default: false
     },
     /**
-     * An array of date objects that communicate to the calendars which
-     * days should be in a "selected" state.
+     * An array of objects that communicate to the calendars which
+     * days should be in a "selected" state. Also applies respective
+     * classes to each date.
      */
     datesSelected: {
       type: Array,
@@ -163,25 +168,38 @@ export default {
      * @return {Object}
      */
     getClasses(day) {
-      return {
-        "calendar__cell-day-button": true,
-        "calendar__cell-day-button--selected": this.isSelected(day)
-      };
+      return this.datesSelected.reduce(
+        (classes, obj) => {
+          if (this.isSelected(obj.date, day)) {
+            classes["calendar__day-button--selected"] = true;
+            if (obj.class) {
+              classes[obj.class] = true;
+            }
+          }
+          return classes;
+        },
+        {
+          "calendar__day-button": true
+        }
+      );
     },
     /**
      * Determines if the given day of the calendar month is in a selected
-     * state. Cross checks {@link this.datesSelected} array of date objects.
+     * state. Cross checks against the passed {@link date}.
      *
+     * @param   {Date}    date The date to compare against {@link internalDate}.
      * @param   {Number}  day  The day of the month
      *
      * @return  {Boolean}       Is the date selected?
      */
-    isSelected(day) {
-      return this.datesSelected.some(
-        date =>
-          date && date.getFullYear() === this.internalDate.getFullYear() &&
-          date && date.getMonth() === this.internalDate.getMonth() &&
-          date && date.getDate() === day
+    isSelected(date, day) {
+      return (
+        date &&
+        date.getFullYear() === this.internalDate.getFullYear() &&
+        date &&
+        date.getMonth() === this.internalDate.getMonth() &&
+        date &&
+        date.getDate() === day
       );
     },
     /**

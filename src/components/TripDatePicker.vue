@@ -33,12 +33,22 @@ export default {
   },
   computed: {
     /**
-     * The array of selected dates.
+     * The array of selected dates and classes to apply to the selected
+     * dates
      *
-     * @return  {Date[]}  The array of selected dates.
+     * @return  {Object[]}  The array of selected dates.
      */
     computedDatesSelected() {
-      return [this.departureDate, this.returnDate];
+      return [
+        {
+          date: this.departureDate,
+          class: "departure-date"
+        },
+        {
+          date: this.returnDate,
+          class: "return-date"
+        }
+      ];
     }
   },
   methods: {
@@ -109,7 +119,7 @@ export default {
           } else if (this.isLaterDate(selectedDate, r)) {
             this.departureDate = selectedDate;
             this.returnDate = null;
-            this.next = 1
+            this.next = 1;
           }
           break;
       }
@@ -122,15 +132,15 @@ export default {
 .trip-date-picker >>> .calendar {
   font-weight: 500;
 }
-.trip-date-picker >>> .calendar__cell-day-button {
+.trip-date-picker >>> .calendar__day-button {
   position: relative;
   outline: none;
 }
-.trip-date-picker >>> .calendar__cell-day-button:hover {
+.trip-date-picker >>> .calendar__day-button:hover {
   color: inherit;
 }
-.trip-date-picker >>> .calendar__cell-day-button--selected:after,
-.trip-date-picker >>> .calendar__cell-day-button:hover:after {
+.trip-date-picker >>> .calendar__day-button--selected:after,
+.trip-date-picker >>> .calendar__day-button:hover:after {
   content: "";
   border: 2px solid #4285f4;
   border-radius: 100%;
@@ -147,13 +157,13 @@ export default {
   width: 44px;
   z-index: -1;
 }
-.trip-date-picker >>> .calendar__cell-day-button--selected {
+.trip-date-picker >>> .calendar__day-button--selected {
   color: white;
 }
-.trip-date-picker >>> .calendar__cell-day-button--selected:after {
+.trip-date-picker >>> .calendar__day-button--selected:after {
   background-color: #4285f4;
 }
-.trip-date-picker >>> .calendar__cell-day-button--selected:hover:after {
+.trip-date-picker >>> .calendar__day-button--selected:hover:after {
   background-color: inherit;
 }
 </style>

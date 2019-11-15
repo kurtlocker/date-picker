@@ -53,8 +53,9 @@ export default {
       default: 2
     },
     /**
-     * An array of date objects that communicate to the calendars which
-     * days should be in a "selected" state.
+     * An array of objects that communicate to the calendars which
+     * days should be in a "selected" state. Also applies respoective
+     * classes to each date.
      */
     datesSelected: {
       type: Array,
