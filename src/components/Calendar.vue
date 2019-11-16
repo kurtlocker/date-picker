@@ -225,50 +225,58 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$color_1: #3c4043;
+$color_2: rgba(0, 0, 0, 0.54);
+$color_3: inherit;
+$color_4: rgba(0, 0, 0, 0.26);
+
 .calendar {
-  color: #3c4043;
+  color: $color_1;
   font-size: 16px;
+  header {
+    margin-bottom: 1em;
+  }
+  main {
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      li {
+        button {
+          border: none;
+          margin: 0;
+          padding: 0;
+          overflow: visible;
+          background: transparent;
+          color: $color_3;
+          font: inherit;
+          line-height: normal;
+          -webkit-font-smoothing: inherit;
+          -moz-osx-font-smoothing: inherit;
+          appearance: none;
+          border-radius: 0;
+          padding: 1em;
+          width: 100%;
+          cursor: pointer;
+          &::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+          }
+        }
+        button[disabled] {
+          color: $color_4;
+          pointer-events: none;
+        }
+      }
+    }
+  }
 }
 .calendar__cell--label {
-  color: rgba(0, 0, 0, 0.54);
+  color: $color_2;
   font-size: 13px;
   padding: 0.5em;
-}
-.calendar header {
-  margin-bottom: 1em;
-}
-.calendar main ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-.calendar main ul li button {
-  border: none;
-  margin: 0;
-  padding: 0;
-  overflow: visible;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  line-height: normal;
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-  appearance: none;
-  border-radius: 0;
-  padding: 1em;
-  width: 100%;
-  /* outline: none; */
-  cursor: pointer;
-}
-.calendar main ul li button[disabled] {
-  color: rgba(0, 0, 0, 0.26);
-  pointer-events: none;
-}
-.calendar main ul li button::-moz-focus-inner {
-  border: 0;
-  padding: 0;
 }
 </style>

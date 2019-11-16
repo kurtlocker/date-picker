@@ -128,22 +128,13 @@ export default {
 };
 </script>
 
-<style scoped>
-.trip-date-picker >>> .calendar {
-  font-weight: 500;
-}
-.trip-date-picker >>> .calendar__day-button {
-  outline: none;
-}
-.trip-date-picker >>> .calendar__cell--day {
-  position: relative;
-}
-.trip-date-picker >>> .calendar__cell--day:hover {
-  color: inherit;
-}
-.trip-date-picker >>> .calendar__cell--selected:after,
-.trip-date-picker
-  >>> .calendar__cell--day:not(.calendar__cell--disabled):hover:after {
+<style lang="scss" scoped>
+$color_1: white;
+$color_2: inherit;
+$blue: #4285f4;
+$background_color_1: inherit;
+
+@mixin circle-with-border {
   content: "";
   border: 2px solid #4285f4;
   border-radius: 100%;
@@ -155,18 +146,51 @@ export default {
   height: 44px;
   margin: auto;
   position: absolute;
-  transform: scale(1);
-  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
   width: 44px;
   z-index: -1;
 }
-.trip-date-picker >>> .calendar__cell--selected {
-  color: white;
-}
-.trip-date-picker >>> .calendar__cell--selected:after {
-  background-color: #4285f4;
-}
-.trip-date-picker >>> .calendar__cell--selected:hover:after {
-  background-color: inherit;
+
+.trip-date-picker {
+  /deep/ .calendar {
+    font-weight: 500;
+
+    &__day-button {
+      outline: none;
+    }
+
+    &__cell {
+      &--day {
+        position: relative;
+        &:not(.calendar__cell--disabled) {
+          &:hover {
+            &:after {
+              @include circle-with-border;
+            }
+          }
+        }
+        @media (hover: hover) {
+          &:hover {
+            color: $color_2;
+          }
+        }
+      }
+
+      &--selected {
+        &:after {
+          @include circle-with-border;
+          background-color: $blue;
+        }
+        color: $color_1;
+
+        @media (hover: hover) {
+          &:hover {
+            &:after {
+              background-color: $background_color_1;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
