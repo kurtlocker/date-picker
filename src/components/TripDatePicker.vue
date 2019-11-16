@@ -152,8 +152,6 @@ $background_color_1: inherit;
 
 .trip-date-picker {
   /deep/ .calendar {
-    font-weight: 500;
-
     &__day-button {
       outline: none;
     }
