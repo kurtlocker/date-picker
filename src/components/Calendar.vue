@@ -85,11 +85,14 @@ export default {
       default: false
     },
     /**
-     * An array of objects that communicate to the calendars which
-     * days should be in a "selected" state. Also applies respective
-     * classes to each date.
+     * The classes to append to the calendar day
+     *
+     * object model: {
+     *  date: Date,
+     *  classes: String[]
+     * }
      */
-    datesSelected: {
+    dateClasses: {
       type: Array,
       required: true
     }
@@ -156,28 +159,32 @@ export default {
   },
   methods: {
     /**
-     * TODO: Think about hoisting this out so this component is only applying
-     * classes to the given calendar day. Right now, this logic couples this
-     * component to its grand parent component.
-     * 
      * The computed classes for the calendar cell..
      * @param {Number} day The day of the month
      * @return {Object}
      */
     getClasses(day) {
-      return this.datesSelected.reduce(
+      return this.dateClasses.reduce(
         (classes, obj) => {
-          if (this.isSelected(obj.date, day)) {
-            classes["calendar__cell--selected"] = true;
-            if (obj.class) {
-              classes[obj.class] = true;
-            }
-            if (obj.next) {
-              classes["next"] = true;
-            }
+          const calendarDate = new Date(
+            this.internalDate.getFullYear(),
+            this.internalDate.getMonth(),
+            day
+          );
+          if (this.isSameDate(obj.date, calendarDate)) {
+            return {
+              ...classes,
+              ...obj.classes.reduce((acc, clazz) => {
+                if (clazz) { // check for empty value
+                  acc[clazz] = true;
+                }
+                return acc;
+              }, {}),
+            };
           }
           return classes;
         },
+        // Default classes controlled by the calendar component
         {
           calendar__cell: true,
           "calendar__cell--day": true,
@@ -187,28 +194,6 @@ export default {
             this.today
           )
         }
-      );
-    },
-    /**
-     * TODO: This can be moved to the grand parent component or into the mixins
-     * file in order to facilitate decoupling.
-     * 
-     * Determines if the given day of the calendar month is in a selected
-     * state. Cross checks against the passed {@link date}.
-     *
-     * @param   {Date}    date The date to compare against {@link internalDate}.
-     * @param   {Number}  day  The day of the month
-     *
-     * @return  {Boolean}       Is the date selected?
-     */
-    isSelected(date, day) {
-      return (
-        date &&
-        date.getFullYear() === this.internalDate.getFullYear() &&
-        date &&
-        date.getMonth() === this.internalDate.getMonth() &&
-        date &&
-        date.getDate() === day
       );
     },
     /**

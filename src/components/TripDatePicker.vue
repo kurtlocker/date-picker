@@ -1,6 +1,9 @@
 <template>
   <div class="trip-date-picker">
-    <date-picker :dates-selected="computedDatesSelected" @date-selected="handleDateSelected" />
+    <date-picker
+      :date-classes="computedDateClasses"
+      @date-selected="handleDateSelected"
+    />
   </div>
 </template>
 
@@ -33,22 +36,32 @@ export default {
   },
   computed: {
     /**
-     * The array of selected dates and classes to apply to the selected
-     * dates
+     * The classes to append to the calendar day
      *
-     * @return  {Object[]}  The array of selected dates.
+     * @return  {Object[]}  [
+     *  {
+     *    date: Date,
+     *    classes: String[]
+     *  }
+     * ]
      */
-    computedDatesSelected() {
+    computedDateClasses() {
       return [
         {
           date: this.departureDate,
-          class: "departure-date",
-          next: this.next === 0,
+          classes: [
+            "departure-date",
+            "calendar__cell--selected",
+            this.next === 0 ? "next" : ""
+          ]
         },
         {
           date: this.returnDate,
-          class: "return-date",
-          next: this.next === 1,
+          classes: [
+            "return-date",
+            "calendar__cell--selected",
+            this.next === 1 ? "next" : ""
+          ]
         }
       ];
     }

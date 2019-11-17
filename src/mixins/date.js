@@ -43,8 +43,11 @@ export default {
      */
     isSameDate(date, compareDate) {
       return (
+        date &&
         date.getFullYear() === compareDate.getFullYear() &&
+        date &&
         date.getMonth() === compareDate.getMonth() &&
+        date &&
         date.getDate() === compareDate.getDate()
       );
     },

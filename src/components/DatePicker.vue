@@ -4,7 +4,7 @@
       <calendar
         v-for="n in months"
         @date-selected="handleDateSelected"
-        :dates-selected="datesSelected"
+        :date-classes="dateClasses"
         :date="adjustedMonth(n - 1, internalDate)"
         :key="`calendar-month-${n - 1}`"
       />
@@ -53,11 +53,14 @@ export default {
       default: 2
     },
     /**
-     * An array of objects that communicate to the calendars which
-     * days should be in a "selected" state. Also applies respoective
-     * classes to each date.
+     * The classes to append to the calendar day
+     *
+     * object model: {
+     *  date: Date,
+     *  classes: String[]
+     * }
      */
-    datesSelected: {
+    dateClasses: {
       type: Array,
       required: true
     }
