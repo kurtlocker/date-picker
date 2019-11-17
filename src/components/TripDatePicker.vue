@@ -4,7 +4,7 @@
       :date-classes="dateClasses"
       @date-selected="handleDateSelected"
       @mouse-enter-date="handleMouseEnterDate"
-      @mouse-leave-date="mouseOverDate = null"
+      @mouse-leave-date="tentativeReturnDate = null"
     />
   </div>
 </template>
@@ -41,11 +41,11 @@ export default {
       returnDate: null,
       /**
        * The date recorded when a user hovers/mouse enters over an arbitrary
-       * calendar date.
+       * calendar date when we a departure date set but no return date.
        *
        * @type {Date}
        */
-      mouseOverDate: null
+      tentativeReturnDate: null
     };
   },
   computed: {
@@ -93,10 +93,10 @@ export default {
      */
     datesInRange() {
       const range = [];
-      let { departureDate: d, returnDate: r, mouseOverDate: m } = this;
+      let { departureDate: d, returnDate: r, tentativeReturnDate: trd } = this;
 
-      if ((d && r) || (d && !r && m && this.isLaterDate(m, d))) {
-        if (!r) r = m;
+      if ((d && r) || (d && !r && trd && this.isLaterDate(trd, d))) {
+        if (!r) r = trd;
         // TODO: there is a bug here calculating the days between two dates.
         // observed when d = 2020 9 31 and r = 2020 10 2
         const timeDiff = r.getTime() - d.getTime();
@@ -119,10 +119,10 @@ export default {
 
         // If we have no return date and a "mouse over" date, add a class to the
         //  date we're mousing over, in order to remove "in range" style.
-        if (!this.returnDate && m) {
+        if (!this.returnDate && trd) {
           range.push({
-            date: m,
-            classes: ["tentative-return"]
+            date: trd,
+            classes: ["tentative-return-date"]
           });
         }
       }
@@ -215,10 +215,20 @@ export default {
           break;
       }
     },
-
+    /**
+     * When we have a departure date and no return date, we want to set the
+     * tentative return date to the date we're mousing over.
+     *
+     * @param {String} eventName The event emitted from the DatePicker component
+     * @param {Number} year The year emitted from the DatePicker component
+     * @param {Number} month The month emitted from the DatePicker component
+     * @param {Number} day The day emitted from the DatePicker component
+     *
+     * @return {void}
+     */
     handleMouseEnterDate(eventName, year, month, day) {
       if (this.departureDate && !this.returnDate) {
-        this.mouseOverDate = new Date(year, month, day);
+        this.tentativeReturnDate = new Date(year, month, day);
       }
     }
   }
@@ -312,7 +322,7 @@ $background_color_1: inherit;
         }
       }
       &.return-date,
-      &.tentative-return {
+      &.tentative-return-date {
         &:before {
           right: 50%;
         }
@@ -322,7 +332,7 @@ $background_color_1: inherit;
           background: linear-gradient(to right, $color_1, $lighter-blue);
         }
       }
-      &.calendar__cell--last-day:not(.return-date):not(.tentative-return) {
+      &.calendar__cell--last-day:not(.return-date):not(.tentative-return-date) {
         &:before {
           background: linear-gradient(to left, $color_1, $lighter-blue);
         }
