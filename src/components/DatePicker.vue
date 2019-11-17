@@ -50,7 +50,7 @@ export default {
     months: {
       type: Number,
       required: false,
-      default: 2,
+      default: 10,
     },
     /**
      * The classes to append to the calendar day

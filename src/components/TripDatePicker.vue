@@ -265,6 +265,16 @@ $background_color_1: inherit;
           right: 50%;
         }
       }
+      &.calendar__cell--first-day {
+        &:before {
+          background: linear-gradient(to right, $color_1, $lighter-blue);
+        }
+      }
+      &.calendar__cell--last-day {
+        &:before {
+          background: linear-gradient(to left, $color_1, $lighter-blue);
+        }
+      }
     }
   }
 }

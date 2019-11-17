@@ -164,22 +164,24 @@ export default {
      * @return {Object}
      */
     getClasses(day) {
+      const { internalDate: date } = this;
       return this.dateClasses.reduce(
         (classes, obj) => {
           const calendarDate = new Date(
-            this.internalDate.getFullYear(),
-            this.internalDate.getMonth(),
+            date.getFullYear(),
+            date.getMonth(),
             day
           );
           if (this.isSameDate(obj.date, calendarDate)) {
             return {
               ...classes,
               ...obj.classes.reduce((acc, clazz) => {
-                if (clazz) { // check for empty value
+                if (clazz) {
+                  // check for empty value
                   acc[clazz] = true;
                 }
                 return acc;
-              }, {}),
+              }, {})
             };
           }
           return classes;
@@ -188,11 +190,10 @@ export default {
         {
           calendar__cell: true,
           "calendar__cell--day": true,
-          "calendar__cell--disabled": this.isPast(
-            day,
-            this.internalDate,
-            this.today
-          )
+          "calendar__cell--disabled": this.isPast(day, date, this.today),
+          "calendar__cell--first-day": day === 1,
+          "calendar__cell--last-day":
+            day === this.getDaysInMonth(date.getFullYear(), date.getMonth())
         }
       );
     },
