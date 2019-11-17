@@ -79,10 +79,10 @@ export default {
       const { departureDate: d, returnDate: r } = this;
       if (d && r) {
         const timeDiff = r.getTime() - d.getTime();
-        let days = timeDiff / (1000 * 3600 * 24) + 1;
+        let days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
         let inRangeDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
-        // ensures we include the departure date in range
+        // "do" ensures we include the departure date in range
         do {
           range.push({
             date: new Date(
@@ -179,8 +179,10 @@ export default {
 <style lang="scss" scoped>
 $color_1: white;
 $color_2: inherit;
+$hover-background-color: $color_1;
 $blue: #4285f4;
 $darker-blue: #3367d6;
+$lighter-blue: #daedfd;
 $background_color_1: inherit;
 
 @mixin circle-with-border {
@@ -199,6 +201,13 @@ $background_color_1: inherit;
   z-index: -1;
 }
 
+@mixin in-range-base {
+  @include circle-with-border;
+  background-color: $lighter-blue;
+  border: 0;
+  border-radius: 0;
+}
+
 .trip-date-picker {
   /deep/ .calendar {
     &__day-button {
@@ -206,15 +215,14 @@ $background_color_1: inherit;
     }
 
     &__cell {
+      &--day:not(.calendar__cell--disabled):hover:after,
+      &--selected:after {
+        @include circle-with-border;
+        background-color: $hover-background-color;
+      }
+
       &--day {
         position: relative;
-        &:not(.calendar__cell--disabled) {
-          &:hover {
-            &:after {
-              @include circle-with-border;
-            }
-          }
-        }
         @media (hover: hover) {
           &:hover {
             color: $color_2;
@@ -223,8 +231,8 @@ $background_color_1: inherit;
       }
 
       &--selected {
+        color: $color_1;
         &:after {
-          @include circle-with-border;
           background-color: $blue;
         }
         &.next {
@@ -232,14 +240,29 @@ $background_color_1: inherit;
             border-color: $darker-blue;
           }
         }
-        color: $color_1;
-
         @media (hover: hover) {
           &:hover {
             &:after {
-              background-color: $background_color_1;
+              background-color: $hover-background-color;
             }
           }
+        }
+      }
+    }
+
+    .in-range {
+      &:before {
+        @include in-range-base;
+        width: inherit;
+      }
+      &.departure-date {
+        &:before {
+          left: 50%;
+        }
+      }
+      &.return-date {
+        &:before {
+          right: 50%;
         }
       }
     }
