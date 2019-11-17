@@ -250,6 +250,8 @@ $background_color_1: inherit;
       }
     }
 
+    // Styles for highlighting the cells between departure and return
+    // dates.
     .in-range {
       &:before {
         @include in-range-base;
@@ -265,12 +267,12 @@ $background_color_1: inherit;
           right: 50%;
         }
       }
-      &.calendar__cell--first-day {
+      &.calendar__cell--first-day:not(.departure-date) {
         &:before {
           background: linear-gradient(to right, $color_1, $lighter-blue);
         }
       }
-      &.calendar__cell--last-day {
+      &.calendar__cell--last-day:not(.return-date) {
         &:before {
           background: linear-gradient(to left, $color_1, $lighter-blue);
         }
