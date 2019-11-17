@@ -23,7 +23,7 @@
           <button
             class="calendar__day-button"
             :disabled="isPast(day, internalDate, today)"
-            @click="handleButtonSelect(day)"
+            @click="handleEvent(day)"
           >{{ day }}</button>
         </li>
       </ul>
@@ -208,7 +208,7 @@ export default {
      * Emits the date-selected event.
      * @param {Number} daySelected The day selected
      */
-    handleButtonSelect(daySelected) {
+    handleEvent(daySelected) {
       this.$emit(
         "date-selected",
         this.internalDate.getFullYear(),

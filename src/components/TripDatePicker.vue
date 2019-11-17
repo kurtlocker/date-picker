@@ -1,9 +1,6 @@
 <template>
   <div class="trip-date-picker">
-    <date-picker
-      :date-classes="computedDateClasses"
-      @date-selected="handleDateSelected"
-    />
+    <date-picker :date-classes="dateClasses" @date-selected="handleDateSelected" />
   </div>
 </template>
 
@@ -45,7 +42,7 @@ export default {
      *  }
      * ]
      */
-    computedDateClasses() {
+    dateClasses() {
       return [
         {
           date: this.departureDate,
@@ -63,7 +60,43 @@ export default {
             this.next === 1 ? "next" : ""
           ]
         }
-      ];
+      ].concat(this.datesInRange);
+    },
+    /**
+     * Computes the dates that are in range of the departure date and return
+     * date or in range of the departure date and a specified date. Each
+     * date within the range gets an 'in-range' class on the calendar day.
+     *
+     * @return  {Object[]}  [
+     *  {
+     *    date: Date,
+     *    classes: String[]
+     *  }
+     * ]
+     */
+    datesInRange() {
+      const range = [];
+      const { departureDate: d, returnDate: r } = this;
+      if (d && r) {
+        const timeDiff = r.getTime() - d.getTime();
+        let days = timeDiff / (1000 * 3600 * 24) + 1;
+        let inRangeDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+        // ensures we include the departure date in range
+        do {
+          range.push({
+            date: new Date(
+              inRangeDate.getFullYear(),
+              inRangeDate.getMonth(),
+              inRangeDate.getDate()
+            ),
+            classes: ["in-range"]
+          });
+          inRangeDate.setDate(inRangeDate.getDate() + 1);
+          --days;
+        } while (days);
+      }
+      return range;
     }
   },
   methods: {
