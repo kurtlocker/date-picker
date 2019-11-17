@@ -156,6 +156,10 @@ export default {
   },
   methods: {
     /**
+     * TODO: Think about hoisting this out so this component is only applying
+     * classes to the given calendar day. Right now, this logic couples this
+     * component to its grand parent component.
+     * 
      * The computed classes for the calendar cell..
      * @param {Number} day The day of the month
      * @return {Object}
@@ -167,6 +171,9 @@ export default {
             classes["calendar__cell--selected"] = true;
             if (obj.class) {
               classes[obj.class] = true;
+            }
+            if (obj.next) {
+              classes["next"] = true;
             }
           }
           return classes;
@@ -183,6 +190,9 @@ export default {
       );
     },
     /**
+     * TODO: This can be moved to the grand parent component or into the mixins
+     * file in order to facilitate decoupling.
+     * 
      * Determines if the given day of the calendar month is in a selected
      * state. Cross checks against the passed {@link date}.
      *

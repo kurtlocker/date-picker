@@ -42,11 +42,13 @@ export default {
       return [
         {
           date: this.departureDate,
-          class: "departure-date"
+          class: "departure-date",
+          next: this.next === 0,
         },
         {
           date: this.returnDate,
-          class: "return-date"
+          class: "return-date",
+          next: this.next === 1,
         }
       ];
     }
@@ -132,11 +134,12 @@ export default {
 $color_1: white;
 $color_2: inherit;
 $blue: #4285f4;
+$darker-blue: #3367d6;
 $background_color_1: inherit;
 
 @mixin circle-with-border {
   content: "";
-  border: 2px solid #4285f4;
+  border: 2px solid $blue;
   border-radius: 100%;
   box-sizing: border-box;
   bottom: 0;
@@ -177,6 +180,11 @@ $background_color_1: inherit;
         &:after {
           @include circle-with-border;
           background-color: $blue;
+        }
+        &.next {
+          &:after {
+            border-color: $darker-blue;
+          }
         }
         color: $color_1;
 
