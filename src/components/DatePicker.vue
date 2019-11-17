@@ -3,7 +3,9 @@
     <div class="date-picker__calendars">
       <calendar
         v-for="n in months"
-        @date-selected="handleDateSelected"
+        @date-selected="handleEvent"
+        @mouse-enter-date="handleEvent"
+        @mouse-leave-date="handleEvent"
         :date-classes="dateClasses"
         :date="adjustedMonth(n - 1, internalDate)"
         :key="`calendar-month-${n - 1}`"
@@ -30,6 +32,7 @@ export default {
     return {
       /**
        * The date object used for this instance.
+       * 
        * @type {Date}
        */
       internalDate: this.date
@@ -50,7 +53,7 @@ export default {
     months: {
       type: Number,
       required: false,
-      default: 2,
+      default: 13
     },
     /**
      * The classes to append to the calendar day
@@ -68,6 +71,7 @@ export default {
   computed: {
     /**
      * Returns a new date whose month is +1 of {@link this.internalDate}.
+     * 
      * @return {Date}
      */
     nextMonth() {
@@ -78,23 +82,27 @@ export default {
     /**
      * Updates the {@link this.internalDate} to a new date whose month has
      * been adjusted by {@link n}.
+     * 
      * @param {Number} n The number of months to shift
+     * 
      * @return {void}
      */
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n, this.internalDate);
     },
     /**
-     * Emits the date-selected event.
-     *
-     * @param   {Number}  year   The selected year
-     * @param   {Number}  month  The selected month
-     * @param   {Number}  day    The selected day
-     *
-     * @return  {void}
+     * Emits {@link eventName} with the values of the event name, year, month,
+     * and day that the user selected.
+     * 
+     * @param {String} eventName The event emitted from the Calendar component
+     * @param {Number} year The year emitted from the Calendar component
+     * @param {Number} month The month emitted from the Calendar component
+     * @param {Number} day The day emitted from the Calendar component
+     * 
+     * @return {void}
      */
-    handleDateSelected(year, month, day) {
-      this.$emit("date-selected", year, month, day);
+    handleEvent(eventName, year, month, day) {
+      this.$emit(eventName, eventName, year, month, day);
     }
   }
 };

@@ -1,6 +1,11 @@
 <template>
   <div class="trip-date-picker">
-    <date-picker :date-classes="dateClasses" @date-selected="handleDateSelected" />
+    <date-picker
+      :date-classes="dateClasses"
+      @date-selected="handleDateSelected"
+      @mouse-enter-date="handleMouseEnterDate"
+      @mouse-leave-date="mouseOverDate = null"
+    />
   </div>
 </template>
 
@@ -18,17 +23,29 @@ export default {
     return {
       /**
        * Which date gets set next? Where 0 = departureDate; 1 = returnDate
+       *
        * @type {Number}
        */
       next: 0,
       /**
+       * The date representing a departure
+       *
        * @type {Date}
        */
       departureDate: null,
       /**
+       * The date representing a return
+       *
        * @type {Date}
        */
-      returnDate: null
+      returnDate: null,
+      /**
+       * The date recorded when a user hovers/mouse enters over an arbitrary
+       * calendar date.
+       *
+       * @type {Date}
+       */
+      mouseOverDate: null
     };
   },
   computed: {
@@ -76,8 +93,12 @@ export default {
      */
     datesInRange() {
       const range = [];
-      const { departureDate: d, returnDate: r } = this;
-      if (d && r) {
+      let { departureDate: d, returnDate: r, mouseOverDate: m } = this;
+
+      if ((d && r) || (d && !r && m && this.isLaterDate(m, d))) {
+        if (!r) r = m;
+        // TODO: there is a bug here calculating the days between two dates.
+        // observed when d = 2020 9 31 and r = 2020 10 2
         const timeDiff = r.getTime() - d.getTime();
         let days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
         let inRangeDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -95,6 +116,15 @@ export default {
           inRangeDate.setDate(inRangeDate.getDate() + 1);
           --days;
         } while (days);
+
+        // If we have no return date and a "mouse over" date, add a class to the
+        //  date we're mousing over, in order to remove "in range" style.
+        if (!this.returnDate && m) {
+          range.push({
+            date: m,
+            classes: ["tentative-return"]
+          });
+        }
       }
       return range;
     }
@@ -102,7 +132,9 @@ export default {
   methods: {
     /**
      * Google Flights - observed behavior of date selection
-     * (D = departure date, R = return date, Next = Which variable gets set next)
+     *  D = departure date
+     *  R = return date
+     *  Next = Which variable gets set next
      *
      * Reset click:
      *  D = null
@@ -128,8 +160,19 @@ export default {
      *      D = Selected Date
      *      R = null
      *      Next = R
+     *
+     * This function handles the various states dictating which date, departure
+     * or return, the user should be selecting next based on their previous
+     * selection.
+     *
+     * @param {String} eventName The event emitted from the DatePicker component
+     * @param {Number} year The year emitted from the DatePicker component
+     * @param {Number} month The month emitted from the DatePicker component
+     * @param {Number} day The day emitted from the DatePicker component
+     *
+     * @return {void}
      */
-    handleDateSelected(year, month, day) {
+    handleDateSelected(eventName, year, month, day) {
       const { departureDate: d, returnDate: r } = this;
       const selectedDate = new Date(year, month, day);
       switch (this.next) {
@@ -170,6 +213,12 @@ export default {
             this.next = 1;
           }
           break;
+      }
+    },
+
+    handleMouseEnterDate(eventName, year, month, day) {
+      if (this.departureDate && !this.returnDate) {
+        this.mouseOverDate = new Date(year, month, day);
       }
     }
   }
@@ -262,7 +311,8 @@ $background_color_1: inherit;
           left: 50%;
         }
       }
-      &.return-date {
+      &.return-date,
+      &.tentative-return {
         &:before {
           right: 50%;
         }
@@ -272,7 +322,7 @@ $background_color_1: inherit;
           background: linear-gradient(to right, $color_1, $lighter-blue);
         }
       }
-      &.calendar__cell--last-day:not(.return-date) {
+      &.calendar__cell--last-day:not(.return-date):not(.tentative-return) {
         &:before {
           background: linear-gradient(to left, $color_1, $lighter-blue);
         }

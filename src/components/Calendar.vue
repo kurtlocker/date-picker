@@ -23,7 +23,9 @@
           <button
             class="calendar__day-button"
             :disabled="isPast(day, internalDate, today)"
-            @click="handleEvent(day)"
+            @click="handleEvent('date-selected', day)"
+            @mouseenter="handleEvent('mouse-enter-date', day)"
+            @mouseleave="handleEvent('mouse-leave-date', day)"
           >{{ day }}</button>
         </li>
       </ul>
@@ -61,7 +63,10 @@ export default {
     /**
      * When the date prop changes, set the {@link internalDate} with the
      * new dateObj.
+     * 
      * @param {Date} dateObj The dateObj
+     * 
+     * @return {void}
      */
     date(dateObj) {
       this.internalDate = dateObj;
@@ -100,6 +105,7 @@ export default {
   computed: {
     /**
      * Returns the abbreviations of the days of the week as an object.
+     * 
      * @return {Object}
      */
     weekDayMap() {
@@ -117,6 +123,7 @@ export default {
     },
     /**
      * Returns the number of days in the month.
+     * 
      * @return {Number}
      */
     days() {
@@ -128,6 +135,7 @@ export default {
     /**
      * The number of days to offset before day 1 of the month starts.
      * Corresponds with blank cells in the calendar month.
+     * 
      * @return {Number}
      */
     daysOffset() {
@@ -140,6 +148,7 @@ export default {
     },
     /**
      * The name of the month
+     * 
      * @return {String}
      */
     month() {
@@ -147,6 +156,7 @@ export default {
     },
     /**
      * Determines if we should display the year.
+     * 
      * @return {Boolean}
      */
     needsYear() {
@@ -160,7 +170,9 @@ export default {
   methods: {
     /**
      * The computed classes for the calendar cell..
+     * 
      * @param {Number} day The day of the month
+     * 
      * @return {Object}
      */
     getClasses(day) {
@@ -199,19 +211,27 @@ export default {
     },
     /**
      * Updates the calendar month by +|- 1.
+     * 
      * @param {Number} n The month number to shift by
+     * 
      * @return {void}
      */
     updateMonth(n) {
       this.internalDate = this.adjustedMonth(n, this.internalDate);
     },
     /**
-     * Emits the date-selected event.
+     * Emits {@link eventName} with the values of the event name, year, month,
+     * and day that the user selected.
+     * 
+     * @param {String} eventName The event to emit
      * @param {Number} daySelected The day selected
+     * 
+     * @return {void}
      */
-    handleEvent(daySelected) {
+    handleEvent(eventName, daySelected) {
       this.$emit(
-        "date-selected",
+        eventName,
+        eventName,
         this.internalDate.getFullYear(),
         this.internalDate.getMonth(),
         daySelected
@@ -272,7 +292,7 @@ $color_4: rgba(0, 0, 0, 0.26);
 }
 .calendar__cell--label {
   color: $color_2;
-  font-size: 13px;
+  font-size: small;
   padding: 0.5em;
 }
 </style>
