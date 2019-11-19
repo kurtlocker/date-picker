@@ -4,6 +4,28 @@
 export default {
   methods: {
     /**
+     * Gets the difference in days between two dates.
+     *
+     * @param   {Date}  date1  
+     * @param   {Date}  date2  
+     *
+     * @return  {Number}         The difference in days
+     */
+    getDaysBetween(date1, date2) {
+      const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+      const utc1 = Date.UTC(
+        date1.getFullYear(),
+        date1.getMonth(),
+        date1.getDate()
+      );
+      const utc2 = Date.UTC(
+        date2.getFullYear(),
+        date2.getMonth(),
+        date2.getDate()
+      );
+      return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+    },
+    /**
      * Determines if {@link date} is earlier than {@link compareDate}.
      * @param {Date} date The date to compare against {@link compareDate}
      * @param {Date} compareDate The date to compare against {@link date}
@@ -61,7 +83,7 @@ export default {
     adjustedMonth(n, date) {
       const clonedDate = new Date(+date);
       clonedDate.setDate(1);
-      return new Date(clonedDate.setMonth(this.internalDate.getMonth() + n));
+      return new Date(clonedDate.setMonth(clonedDate.getMonth() + n));
     },
     /**
      * Determines if a given calendarDay is in the past relative to

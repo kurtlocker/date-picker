@@ -96,11 +96,12 @@ export default {
       let { departureDate: d, returnDate: r, tentativeReturnDate: trd } = this;
 
       if ((d && r) || (d && !r && trd && this.isLaterDate(trd, d))) {
+        // If we have no return date and we're in this block, we're mousing
+        // over a tentative date, so set the temp return date to the date being 
+        // moused over.
         if (!r) r = trd;
-        // TODO: there is a bug here calculating the days between two dates.
-        // observed when d = 2020 9 31 and r = 2020 10 2
-        const timeDiff = r.getTime() - d.getTime();
-        let days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+
+        let days = this.getDaysBetween(d, r) + 1;
         let inRangeDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
         // "do" ensures we include the departure date in range
@@ -115,7 +116,7 @@ export default {
           });
           inRangeDate.setDate(inRangeDate.getDate() + 1);
           --days;
-        } while (days);
+        } while (days > 0);
 
         // If we have no return date and a "mouse over" date, add a class to the
         //  date we're mousing over, in order to remove "in range" style.
@@ -274,7 +275,12 @@ $background_color_1: inherit;
     }
 
     &__cell {
-      &--day:not(.calendar__cell--disabled):hover:after,
+      @media (hover: hover) {
+        &--day:not(.calendar__cell--disabled):hover:after {
+          @include circle-with-border;
+          background-color: $hover-background-color;
+        }
+      }
       &--selected:after {
         @include circle-with-border;
         background-color: $hover-background-color;
