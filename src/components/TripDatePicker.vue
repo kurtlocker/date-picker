@@ -277,7 +277,6 @@ $background_color_1: inherit;
   box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);
   border-radius: 8px;
-  position: relative;
   max-width: 800px;
   margin: 0 auto;
 
@@ -287,12 +286,12 @@ $background_color_1: inherit;
   }
 
   & > main {
-    margin: 12px 45px 8px;
+    position: relative;
+    margin: 12px 45px 3em;
   }
 
   & > footer {
     padding: 8px;
-    margin-top: 3em;
     border-top: 1px solid $border-color;
   }
 
@@ -307,10 +306,12 @@ $background_color_1: inherit;
     }
 
     &__previous-month {
+      margin-left: -65px;
       left: 0;
     }
 
     &__next-month {
+      margin-right: -65px;
       right: 0;
     }
   }
