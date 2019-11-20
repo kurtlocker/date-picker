@@ -1,11 +1,15 @@
 <template>
   <div class="trip-date-picker">
-    <date-picker
-      :date-classes="dateClasses"
-      @date-selected="handleDateSelected"
-      @mouse-enter-date="handleMouseEnterDate"
-      @mouse-leave-date="tentativeReturnDate = null"
-    />
+    <header>Top</header>
+    <main>
+      <date-picker
+        :date-classes="dateClasses"
+        @date-selected="handleDateSelected"
+        @mouse-enter-date="handleMouseEnterDate"
+        @mouse-leave-date="tentativeReturnDate = null"
+      />
+    </main>
+    <footer>Done</footer>
   </div>
 </template>
 
@@ -97,7 +101,7 @@ export default {
 
       if ((d && r) || (d && !r && trd && this.isLaterDate(trd, d))) {
         // If we have no return date and we're in this block, we're mousing
-        // over a tentative date, so set the temp return date to the date being 
+        // over a tentative date, so set the temp return date to the date being
         // moused over.
         if (!r) r = trd;
 
@@ -239,6 +243,7 @@ export default {
 <style lang="scss" scoped>
 $color_1: white;
 $color_2: inherit;
+$border-color: #dadce0;
 $hover-background-color: $color_1;
 $blue: #4285f4;
 $darker-blue: #3367d6;
@@ -269,7 +274,52 @@ $background_color_1: inherit;
 }
 
 .trip-date-picker {
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
+    0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  border-radius: 8px;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+
+  & > header {
+    padding: 8px 8px 8px 24px;
+    border-bottom: 1px solid $border-color;
+  }
+
+  & > main {
+    margin: 12px 45px 8px;
+  }
+
+  & > footer {
+    padding: 8px;
+    margin-top: 3em;
+    border-top: 1px solid $border-color;
+  }
+
+  /deep/ .date-picker {
+    &__calendars {
+      grid-gap: 4em;
+    }
+    &__previous-month,
+    &__next-month {
+      position: absolute;
+      top: 50%;
+    }
+
+    &__previous-month {
+      left: 0;
+    }
+
+    &__next-month {
+      right: 0;
+    }
+  }
+
   /deep/ .calendar {
+    main ul li button {
+      padding: 15px 0;
+    }
+
     &__day-button {
       outline: none;
     }

@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style>
-@import url("//fonts.googleapis.com/css?lang=en&family=Roboto:400");
+@import url("//fonts.googleapis.com/css?lang=en&family=Roboto:500");
 #app {
   font: 400 16px/24px Roboto, HelveticaNeue, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
