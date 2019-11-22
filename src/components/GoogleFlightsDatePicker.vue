@@ -1,5 +1,5 @@
 <template>
-  <div class="trip-date-picker">
+  <div class="google-flights-date-picker">
     <header>Top</header>
     <main>
       <date-picker
@@ -18,7 +18,7 @@ import DatePicker from "./DatePicker.vue";
 import dateMixin from "../mixins/date";
 
 export default {
-  name: "TripDatePicker",
+  name: "GoogleFlightsDatePicker",
   components: {
     DatePicker
   },
@@ -273,7 +273,7 @@ $background_color_1: inherit;
   border-radius: 0;
 }
 
-.trip-date-picker {
+.google-flights-date-picker {
   box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);
   border-radius: 8px;

@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <trip-date-picker /> 
+    <google-flights-date-picker /> 
   </div>
 </template>
 
 <script>
-import TripDatePicker from './components/TripDatePicker.vue'
+import GoogleFlightsDatePicker from './components/GoogleFlightsDatePicker.vue'
 
 export default {
   name: 'app',
   components: {
-    TripDatePicker,
+    GoogleFlightsDatePicker,
   }
 }
 </script>
