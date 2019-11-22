@@ -166,7 +166,7 @@ $button-color: white;
   }
 
   &__previous-month svg {
-    margin-left: -1px;
+    margin-left: -4px;
   }
 
   &__next-month svg {
