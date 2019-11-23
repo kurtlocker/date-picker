@@ -1,6 +1,14 @@
 <template>
-  <div class="google-flights-date-picker">
-    <header>Top</header>
+  <div class="gflights-dp">
+    <header>
+      <div class="gflights-dp__ancillary-buttons-container">
+        <div class="gflights-dp__flight-type">Round Trip</div>
+        <div class="gflights-dp__reset">Reset</div>
+      </div>
+      <div class="gflights-dp__date-buttons-container">
+        <date-buttons />
+      </div>
+    </header>
     <main>
       <date-picker
         :date-classes="dateClasses"
@@ -15,12 +23,14 @@
 
 <script>
 import DatePicker from "./DatePicker.vue";
+import DateButtons from "./DateButtons.vue";
 import dateMixin from "../mixins/date";
 
 export default {
   name: "GoogleFlightsDatePicker",
   components: {
-    DatePicker
+    DatePicker,
+    DateButtons
   },
   mixins: [dateMixin],
   data() {
@@ -273,7 +283,7 @@ $background_color_1: inherit;
   border-radius: 0;
 }
 
-.google-flights-date-picker {
+.gflights-dp {
   box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);
   border-radius: 8px;
@@ -283,6 +293,18 @@ $background_color_1: inherit;
   & > header {
     padding: 8px 8px 8px 24px;
     border-bottom: 1px solid $border-color;
+    display: flex;
+
+    .gflights-dp {
+      &__ancillary-buttons-container {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+      &__date-buttons-container {
+        flex: 1;
+      }
+    }
   }
 
   & > main {

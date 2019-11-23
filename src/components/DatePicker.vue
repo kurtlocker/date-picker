@@ -11,7 +11,7 @@
         :key="`calendar-month-${n - 1}`"
       />
     </div>
-    <div class="date-picker__buttons">
+    <div class="date-picker__month-changers">
       <button class="date-picker__previous-month" @click="updateMonth(-1)">
         <icon-base icon-name="left-chevron">
           <icon-left-chevron />
@@ -137,7 +137,7 @@ $button-color: white;
     }
   }
 
-  &__buttons {
+  &__month-changers {
     button {
       border: none;
       padding: 0;
