@@ -22,11 +22,11 @@ export default {
     },
     width: {
       type: [Number, String],
-      default: 16
+      default: 13
     },
     height: {
       type: [Number, String],
-      default: 16
+      default: 13
     },
     iconColor: {
       type: String,
