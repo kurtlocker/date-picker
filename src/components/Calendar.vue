@@ -63,9 +63,9 @@ export default {
     /**
      * When the date prop changes, set the {@link internalDate} with the
      * new dateObj.
-     * 
+     *
      * @param {Date} dateObj The dateObj
-     * 
+     *
      * @return {void}
      */
     date(dateObj) {
@@ -105,7 +105,7 @@ export default {
   computed: {
     /**
      * Returns the abbreviations of the days of the week as an object.
-     * 
+     *
      * @return {Object}
      */
     weekDayMap() {
@@ -123,7 +123,7 @@ export default {
     },
     /**
      * Returns the number of days in the month.
-     * 
+     *
      * @return {Number}
      */
     days() {
@@ -135,7 +135,7 @@ export default {
     /**
      * The number of days to offset before day 1 of the month starts.
      * Corresponds with blank cells in the calendar month.
-     * 
+     *
      * @return {Number}
      */
     daysOffset() {
@@ -148,7 +148,7 @@ export default {
     },
     /**
      * The name of the month
-     * 
+     *
      * @return {String}
      */
     month() {
@@ -156,7 +156,7 @@ export default {
     },
     /**
      * Determines if we should display the year.
-     * 
+     *
      * @return {Boolean}
      */
     needsYear() {
@@ -170,9 +170,9 @@ export default {
   methods: {
     /**
      * The computed classes for the calendar cell..
-     * 
+     *
      * @param {Number} day The day of the month
-     * 
+     *
      * @return {Object}
      */
     getClasses(day) {
@@ -211,9 +211,9 @@ export default {
     },
     /**
      * Updates the calendar month by +|- 1.
-     * 
+     *
      * @param {Number} n The month number to shift by
-     * 
+     *
      * @return {void}
      */
     updateMonth(n) {
@@ -222,10 +222,10 @@ export default {
     /**
      * Emits {@link eventName} with the values of the event name, year, month,
      * and day that the user selected.
-     * 
+     *
      * @param {String} eventName The event to emit
      * @param {Number} daySelected The day selected
-     * 
+     *
      * @return {void}
      */
     handleEvent(eventName, daySelected) {
@@ -242,57 +242,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$color_1: #3c4043;
-$color_2: rgba(0, 0, 0, 0.54);
-$color_3: inherit;
-$color_4: rgba(0, 0, 0, 0.26);
-
-.calendar {
-  color: $color_1;
-  font-size: 16px;
-  header {
-    margin-bottom: 1em;
-  }
-  main {
-    ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      li {
-        button {
-          border: none;
-          margin: 0;
-          padding: 0;
-          overflow: visible;
-          background: transparent;
-          color: $color_3;
-          font: inherit;
-          line-height: normal;
-          -webkit-font-smoothing: inherit;
-          -moz-osx-font-smoothing: inherit;
-          appearance: none;
-          border-radius: 0;
-          padding: 1em;
-          width: 100%;
-          cursor: pointer;
-          &::-moz-focus-inner {
-            border: 0;
-            padding: 0;
-          }
-        }
-        button[disabled] {
-          color: $color_4;
-          pointer-events: none;
-        }
-      }
-    }
-  }
-}
-.calendar__cell--label {
-  color: $color_2;
-  font-size: small;
-  padding: 0.5em;
-}
+@import "../style/components/calendar";
 </style>

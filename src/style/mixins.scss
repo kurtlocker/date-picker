@@ -1,0 +1,22 @@
+@mixin circle-with-border {
+  content: "";
+  border: 2px solid $blue;
+  border-radius: 100%;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 44px;
+  margin: auto;
+  position: absolute;
+  width: 44px;
+  z-index: -1;
+}
+
+@mixin in-range-base {
+  @include circle-with-border;
+  background-color: $lighter-blue;
+  border: 0;
+  border-radius: 0;
+}

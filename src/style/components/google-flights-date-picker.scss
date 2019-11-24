@@ -1,0 +1,139 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.gflights-dp {
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
+    0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  & > header {
+    padding: 8px 8px 8px 24px;
+    border-bottom: 1px solid $light-grey;
+    display: flex;
+
+    .gflights-dp {
+      &__ancillary-buttons-container {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+      &__date-buttons-container {
+        flex: 1;
+      }
+    }
+  }
+
+  & > main {
+    position: relative;
+    margin: 12px 45px 3em;
+  }
+
+  & > footer {
+    padding: 8px;
+    border-top: 1px solid $light-grey;
+  }
+
+  /deep/ .date-picker {
+    &__calendars {
+      grid-gap: 4em;
+    }
+    &__previous-month,
+    &__next-month {
+      position: absolute;
+      top: 50%;
+    }
+
+    &__previous-month {
+      margin-left: -65px;
+      left: 0;
+    }
+
+    &__next-month {
+      margin-right: -65px;
+      right: 0;
+    }
+  }
+
+  /deep/ .calendar {
+    main ul li button {
+      padding: 15px 0;
+    }
+
+    &__day-button {
+      outline: none;
+    }
+
+    &__cell {
+      @media (hover: hover) {
+        &--day:not(.calendar__cell--disabled):hover:after {
+          @include circle-with-border;
+          background-color: $hover-background-color;
+        }
+      }
+      &--selected:after {
+        @include circle-with-border;
+        background-color: $hover-background-color;
+      }
+
+      &--day {
+        position: relative;
+        @media (hover: hover) {
+          &:hover {
+            color: inherit;
+          }
+        }
+      }
+
+      &--selected {
+        color: $cell-selected-color;
+        &:after {
+          background-color: $blue;
+        }
+        &.next {
+          &:after {
+            border-color: $darker-blue;
+          }
+        }
+        @media (hover: hover) {
+          &:hover {
+            &:after {
+              background-color: $hover-background-color;
+            }
+          }
+        }
+      }
+    }
+
+    // Styles for highlighting the cells between departure and return
+    // dates.
+    .in-range {
+      &:before {
+        @include in-range-base;
+        width: inherit;
+      }
+      &.departure-date {
+        &:before {
+          left: 50%;
+        }
+      }
+      &.return-date,
+      &.tentative-return-date {
+        &:before {
+          right: 50%;
+        }
+      }
+      &.calendar__cell--first-day:not(.departure-date) {
+        &:before {
+          background: linear-gradient(to right, $cell-selected-color, $lighter-blue);
+        }
+      }
+      &.calendar__cell--last-day:not(.return-date):not(.tentative-return-date) {
+        &:before {
+          background: linear-gradient(to left, $cell-selected-color, $lighter-blue);
+        }
+      }
+    }
+  }
+}

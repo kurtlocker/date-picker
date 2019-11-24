@@ -39,7 +39,7 @@ export default {
     Calendar,
     IconBase,
     IconLeftChevron,
-    IconRightChevron,
+    IconRightChevron
   },
   mixins: [dateMixin],
   data() {
@@ -123,54 +123,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$color_1: inherit;
-$background_color_1: inherit;
-$button-color: white;
-
-.date-picker {
-  &__calendars {
-    display: grid;
-    grid-gap: 2em;
-
-    @media screen and (min-width: 787px) {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  &__month-changers {
-    button {
-      border: none;
-      padding: 0;
-      overflow: visible;
-      color: $color_1;
-      font: inherit;
-      line-height: normal;
-      -webkit-font-smoothing: inherit;
-      -moz-osx-font-smoothing: inherit;
-      appearance: none;
-      padding: 0.8em;
-      cursor: pointer;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-    }
-  }
-
-  &__previous-month,
-  &__next-month {
-    height: 40px;
-    width: 40px;
-    background-color: $button-color;
-    border-radius: 100%;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 4px 4px rgba(0, 0, 0, 0.24);
-  }
-
-  &__previous-month svg {
-    margin-left: -4px;
-  }
-
-  &__next-month svg {
-    margin-left: 1px;
-  }
-}
+@import "../style/components/date-picker";
 </style>

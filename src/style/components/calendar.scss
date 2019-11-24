@@ -1,0 +1,50 @@
+@import "../variables.scss";
+
+.calendar {
+  color: $dark-grey;
+  font-size: 16px;
+  header {
+    margin-bottom: 1em;
+  }
+  main {
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      li {
+        button {
+          border: none;
+          margin: 0;
+          padding: 0;
+          overflow: visible;
+          background: transparent;
+          color: inherit;
+          font: inherit;
+          line-height: normal;
+          -webkit-font-smoothing: inherit;
+          -moz-osx-font-smoothing: inherit;
+          appearance: none;
+          border-radius: 0;
+          padding: 1em;
+          width: 100%;
+          cursor: pointer;
+          &::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+          }
+        }
+        button[disabled] {
+          opacity: 0.26;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}
+.calendar__cell--label {
+  opacity: 0.54;
+  font-size: small;
+  padding: 0.5em;
+}

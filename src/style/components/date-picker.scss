@@ -1,0 +1,29 @@
+@import "../variables.scss";
+
+.date-picker {
+  &__calendars {
+    display: grid;
+    grid-gap: 2em;
+
+    @media screen and (min-width: 787px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__previous-month,
+  &__next-month {
+    height: 40px;
+    width: 40px;
+    background-color: $month-changer-background-color;
+    border-radius: 100%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 4px 4px rgba(0, 0, 0, 0.24);
+  }
+
+  &__previous-month svg {
+    margin-left: -4px;
+  }
+
+  &__next-month svg {
+    margin-left: 1px;
+  }
+}
