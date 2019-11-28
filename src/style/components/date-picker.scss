@@ -1,4 +1,5 @@
 @import "../variables.scss";
+@import "../mixins.scss";
 
 .date-picker {
   &__calendars {
@@ -11,29 +12,7 @@
   }
 
   /deep/ button {
-    border: none;
-    margin: 0;
-    padding: 0;
-    overflow: visible;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    line-height: normal;
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-    appearance: none;
-    border-radius: 0;
-    padding: 1em;
-    width: 100%;
-    cursor: pointer;
-    &::-moz-focus-inner {
-      border: 0;
-      padding: 0;
-    }
-    &[disabled] {
-      opacity: 0.26;
-      pointer-events: none;
-    }
+    @include button-reset;
   }
 
   button.date-picker__previous-month,

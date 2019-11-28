@@ -3,7 +3,9 @@
     <header>
       <div class="gflights-dp__ancillary-buttons-container">
         <div class="gflights-dp__flight-type">Round Trip</div>
-        <div class="gflights-dp__reset">Reset</div>
+        <div class="gflights-dp__reset">
+          <button :disabled="isResetDisabled" @click="reset">Reset</button>
+        </div>
       </div>
       <div class="gflights-dp__date-buttons-container">
         <date-buttons />
@@ -33,6 +35,18 @@ export default {
     DateButtons
   },
   mixins: [engine],
+  computed: {
+    isResetDisabled() {
+      return !this.departureDate && !this.returnDate;
+    }
+  },
+  methods: {
+    reset() {
+      this.departureDate = null;
+      this.returnDate = null;
+      this.next = 0;
+    }
+  }
 };
 </script>
 

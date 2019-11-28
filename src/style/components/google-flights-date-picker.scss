@@ -1,7 +1,11 @@
 @import '../variables.scss';
 @import '../mixins.scss';
+@import url('//fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 
 .gflights-dp {
+  // font: 400 16px/24px Roboto, HelveticaNeue, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+
   box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);
   border-radius: 8px;
@@ -12,15 +16,26 @@
     padding: 8px 8px 8px 24px;
     border-bottom: 1px solid $light-grey;
     display: flex;
+    align-items: center;
 
     .gflights-dp {
       &__ancillary-buttons-container {
         display: flex;
         justify-content: space-between;
         flex: 1;
+        align-items: center;
       }
       &__date-buttons-container {
         flex: 1;
+      }
+
+      &__reset {
+        margin-right: 1.6rem;
+        button {
+          @include button-reset;
+          font-size: 15px;
+          font-weight: 500
+        }
       }
     }
   }
@@ -33,6 +48,12 @@
   & > footer {
     padding: 8px;
     border-top: 1px solid $light-grey;
+  }
+
+  /deep/ .date-buttons {
+    height: 48px;
+    border: 1px solid $light-grey;
+    border-radius: 4px;
   }
 
   /deep/ .date-picker {

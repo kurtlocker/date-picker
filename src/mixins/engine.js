@@ -158,7 +158,7 @@ export default {
             // Departure date is next
             this.next = 0;
             // Set the departure date
-            this.gflightsPickOrder(year, month, day);
+            this.roundTrip(year, month, day);
           } else if (
             this.isEarlierDate(selectedDate, r) ||
             this.isSameDate(selectedDate, r)
