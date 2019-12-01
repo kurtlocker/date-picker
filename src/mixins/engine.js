@@ -137,7 +137,7 @@ export default {
       switch (this.next) {
         case 0:
           this.departureDate = selectedDate;
-          if (this.returnDate && this.isLaterDate(selectedDate, r)) {
+          if (r && this.isLaterDate(selectedDate, r)) {
             this.returnDate = null;
           }
           // Set return date next
