@@ -1,4 +1,4 @@
-import dateMixin from './date';
+import dateMixin from "./date";
 /**
  * The logic behind determining the next date selected and all of the stateful
  * modifications to each calendar cell.
@@ -69,7 +69,7 @@ export default {
     },
     /**
      * Computes the dates that are in range of the departure date and return
-     * date or in range of the departure date and the tentative return date. 
+     * date or in range of the departure date and the tentative return date.
      * Each date within the range gets an 'in-range' class on the calendar day.
      *
      * @return  {Object[]}  [
@@ -137,6 +137,9 @@ export default {
       switch (this.next) {
         case 0:
           this.departureDate = selectedDate;
+          if (this.returnDate && this.isLaterDate(selectedDate, r)) {
+            this.returnDate = null;
+          }
           // Set return date next
           this.next = 1;
           break;

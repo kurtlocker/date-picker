@@ -1,10 +1,10 @@
-@import '../variables.scss';
-@import '../mixins.scss';
-@import url('//fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+@import "../variables.scss";
+@import "../mixins.scss";
+@import url("//fonts.googleapis.com/css?family=Roboto:400,500&display=swap");
 
 .gflights-dp {
   // font: 400 16px/24px Roboto, HelveticaNeue, Arial, sans-serif;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 
   box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3),
     0 4px 8px 3px rgba(60, 64, 67, 0.15);
@@ -34,7 +34,7 @@
         button {
           @include button-reset;
           font-size: 15px;
-          font-weight: 500
+          font-weight: 500;
         }
       }
     }
@@ -54,6 +54,17 @@
     height: 48px;
     border: 1px solid $light-grey;
     border-radius: 4px;
+
+    &__button-group {
+      border: 2px solid transparent;
+      border-radius: 4px;
+      margin: -1px;
+
+      &--active {
+        background-color: #f4f8ff;
+        border-color: #1967d2;
+      }
+    }
   }
 
   /deep/ .date-picker {
@@ -147,12 +158,20 @@
       }
       &.calendar__cell--first-day:not(.departure-date) {
         &:before {
-          background: linear-gradient(to right, $cell-selected-color, $lighter-blue);
+          background: linear-gradient(
+            to right,
+            $cell-selected-color,
+            $lighter-blue
+          );
         }
       }
       &.calendar__cell--last-day:not(.return-date):not(.tentative-return-date) {
         &:before {
-          background: linear-gradient(to left, $cell-selected-color, $lighter-blue);
+          background: linear-gradient(
+            to left,
+            $cell-selected-color,
+            $lighter-blue
+          );
         }
       }
     }

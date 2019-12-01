@@ -8,7 +8,12 @@
         </div>
       </div>
       <div class="gflights-dp__date-buttons-container">
-        <date-buttons />
+        <date-buttons
+          :departure-date="departureDate"
+          :return-date="returnDate"
+          :next="next"
+          @next="handleNext"
+        />
       </div>
     </header>
     <main>
@@ -45,6 +50,10 @@ export default {
       this.departureDate = null;
       this.returnDate = null;
       this.next = 0;
+    },
+    handleNext(next) {
+      if (next === 1 && !this.departureDate) return;
+      this.next = next;
     }
   }
 };
