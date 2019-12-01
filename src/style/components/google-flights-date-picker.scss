@@ -50,23 +50,6 @@
     border-top: 1px solid $light-grey;
   }
 
-  /deep/ .date-buttons {
-    height: 48px;
-    border: 1px solid $light-grey;
-    border-radius: 4px;
-
-    &__button-group {
-      border: 2px solid transparent;
-      border-radius: 4px;
-      margin: -1px;
-
-      &--active {
-        background-color: #f4f8ff;
-        border-color: #1967d2;
-      }
-    }
-  }
-
   /deep/ .date-picker {
     &__calendars {
       grid-gap: 4em;

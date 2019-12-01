@@ -1,26 +1,59 @@
 <template>
-  <div class="date-buttons">
+  <div class="gflights-date-buttons">
     <div :class="buttonGroupClasses(0)">
-      <button class="date-buttons__departure" @click="$emit('next', 0)">{{ departureDateText }}</button>
-      <button class="date-buttons__arrow">
+      <icon-base
+        class="gflights-date-buttons__icon"
+        iconColor="#1a73e8"
+        width="24"
+        height="24"
+        viewBox="0 0 426.667 426.667"
+        icon-name="calendar"
+      >
+        <icon-calendar />
+      </icon-base>
+      <button
+        class="gflights-date-buttons__button gflights-date-buttons__button--departure"
+        @click="$emit('next', 0)"
+      >{{ departureDateText }}</button>
+      <button
+        v-if="departureDate"
+        class="gflights-date-buttons__button gflights-date-buttons__button--left-arrow"
+        @click="$emit('arrow-update', 0, -1)"
+      >
         <icon-base height="10px" width="10px" icon-name="left-chevron">
           <icon-left-chevron />
         </icon-base>
       </button>
-      <button class="date-buttons__arrow">
+      <button
+        v-if="departureDate"
+        class="gflights-date-buttons__button gflights-date-buttons__button--right-arrow"
+        @click="$emit('arrow-update', 0, 1)"
+      >
         <icon-base height="10px" width="10px" icon-name="right-chevron">
           <icon-right-chevron />
         </icon-base>
       </button>
     </div>
+    <div class="gflights-date-buttons__divider" />
     <div :class="buttonGroupClasses(1)">
-      <button class="date-buttons__return" @click="$emit('next', 1)">{{ returnDateText }}</button>
-      <button class="date-buttons__arrow">
+      <button
+        class="gflights-date-buttons__button gflights-date-buttons__button--return"
+        @click="$emit('next', 1)"
+      >{{ returnDateText }}</button>
+      <button
+        v-if="returnDate"
+        class="gflights-date-buttons__button gflights-date-buttons__button--left-arrow"
+        @click="$emit('arrow-update', 1, -1)"
+      >
         <icon-base height="10px" width="10px" icon-name="left-chevron">
           <icon-left-chevron />
         </icon-base>
       </button>
-      <button class="date-buttons__arrow">
+      <button
+        v-if="returnDate"
+        class="gflights-date-buttons__button gflights-date-buttons__button--right-arrow"
+        @click="$emit('arrow-update', 1, 1)"
+      >
         <icon-base height="10px" width="10px" icon-name="right-chevron">
           <icon-right-chevron />
         </icon-base>
@@ -33,13 +66,15 @@
 import IconBase from "./IconBase.vue";
 import IconLeftChevron from "./icons/IconLeftChevron.vue";
 import IconRightChevron from "./icons/IconRightChevron.vue";
+import IconCalendar from "./icons/IconCalendar.vue";
 
 export default {
-  name: "DateButtons",
+  name: "GoogleFlightsDateButtons",
   components: {
     IconBase,
     IconLeftChevron,
-    IconRightChevron
+    IconRightChevron,
+    IconCalendar
   },
   props: {
     departureDate: {
@@ -81,8 +116,8 @@ export default {
   methods: {
     buttonGroupClasses(next) {
       return {
-        "date-buttons__button-group": true,
-        "date-buttons__button-group--active": this.next === next
+        "gflights-date-buttons__button-group": true,
+        "gflights-date-buttons__button-group--active": this.next === next
       };
     }
   }
@@ -90,5 +125,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../style/components/date-buttons";
+@import "../style/components/google-flights-date-buttons";
 </style>

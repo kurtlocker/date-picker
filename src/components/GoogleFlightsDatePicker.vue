@@ -8,11 +8,12 @@
         </div>
       </div>
       <div class="gflights-dp__date-buttons-container">
-        <date-buttons
+        <google-flights-date-buttons
           :departure-date="departureDate"
           :return-date="returnDate"
           :next="next"
           @next="handleNext"
+          @arrow-update="handleArrowUpdate"
         />
       </div>
     </header>
@@ -30,14 +31,14 @@
 
 <script>
 import DatePicker from "./DatePicker.vue";
-import DateButtons from "./DateButtons.vue";
+import GoogleFlightsDateButtons from "./GoogleFlightsDateButtons.vue";
 import engine from "../mixins/engine";
 
 export default {
   name: "GoogleFlightsDatePicker",
   components: {
     DatePicker,
-    DateButtons
+    GoogleFlightsDateButtons
   },
   mixins: [engine],
   computed: {
@@ -54,6 +55,10 @@ export default {
     handleNext(next) {
       if (next === 1 && !this.departureDate) return;
       this.next = next;
+    }, 
+    handleArrowUpdate(dateType, dateAdjust) {
+      // eslint-disable-next-line no-console
+      console.log(dateType, dateAdjust);
     }
   }
 };
