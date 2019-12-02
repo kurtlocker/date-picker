@@ -135,8 +135,10 @@
       }
       &.return-date,
       &.tentative-return-date {
-        &:before {
-          right: 50%;
+        &:not(.picking-later) {
+          &:before {
+            right: 50%;
+          }
         }
       }
       &.calendar__cell--first-day:not(.departure-date) {

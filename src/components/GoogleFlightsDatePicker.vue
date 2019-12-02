@@ -13,7 +13,7 @@
           :return-date="returnDate"
           :next="next"
           @next="handleNext"
-          @arrow-update="handleArrowUpdate"
+          @day-update="handleDayUpdate"
         />
       </div>
     </header>
@@ -47,18 +47,15 @@ export default {
     }
   },
   methods: {
+    /**
+     * Resets the departure and return dates.
+     *
+     * @return  {void}
+     */
     reset() {
       this.departureDate = null;
       this.returnDate = null;
       this.next = 0;
-    },
-    handleNext(next) {
-      if (next === 1 && !this.departureDate) return;
-      this.next = next;
-    }, 
-    handleArrowUpdate(dateType, dateAdjust) {
-      // eslint-disable-next-line no-console
-      console.log(dateType, dateAdjust);
     }
   }
 };

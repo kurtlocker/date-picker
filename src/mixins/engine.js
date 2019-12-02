@@ -81,15 +81,28 @@ export default {
      */
     datesInRange() {
       const range = [];
-      let { departureDate: d, returnDate: r, tentativeReturnDate: trd } = this;
+      let {
+        departureDate: d,
+        returnDate: r,
+        tentativeReturnDate: trd,
+        next
+      } = this;
 
-      if ((d && r) || (d && !r && trd && this.isLaterDate(trd, d))) {
-        // If we have no return date and we're in this block, we're mousing
-        // over a tentative date, so set the temp return date to the date being
-        // moused over.
-        if (!r) r = trd;
+      if (
+        (d && r) ||
+        (d && !r && trd && next !== 0 && this.isLaterDate(trd, d))
+      ) {
+        // If we have no return date or we have both dates but they're the same
+        // with the intention of setting the retun date to a later date,
+        // we're mousing over a tentative return date, so set the temp
+        // return date to the date being moused over.
+        const isSamePickingLater = this.isSamePickingLater();
+        if (!r || isSamePickingLater) {
+          r = trd;
+        }
 
         let days = this.getDaysBetween(d, r) + 1;
+        let daysLength = days;
         let inRangeDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
         // "do" ensures we include the departure date in range
@@ -100,15 +113,21 @@ export default {
               inRangeDate.getMonth(),
               inRangeDate.getDate()
             ),
-            classes: ["in-range"]
+            classes: [
+              "in-range",
+              // Used to style in the case of "isSamePickingLater"
+              isSamePickingLater && days === daysLength ? "picking-later" : ""
+            ]
           });
           inRangeDate.setDate(inRangeDate.getDate() + 1);
           --days;
         } while (days > 0);
 
-        // If we have no return date and a "mouse over" date, add a class to the
-        //  date we're mousing over, in order to remove "in range" style.
-        if (!this.returnDate && trd) {
+        // If we have no return date, or we have both dates but they're the same
+        // with next date to pick being the return date, and a "mouse over" date,
+        // add a class to the date we're mousing over, in order to remove
+        // "in range" style.
+        if ((!this.returnDate && trd) || isSamePickingLater) {
           range.push({
             date: trd,
             classes: ["tentative-return-date"]
@@ -119,6 +138,21 @@ export default {
     }
   },
   methods: {
+    /**
+     * If the departure date and return date are the same and our "next" date
+     * to choose is a return date, we're picking later
+     *
+     * @return  {Boolean}
+     */
+    isSamePickingLater() {
+      let {
+        departureDate: d,
+        returnDate: r,
+        tentativeReturnDate: trd,
+        next
+      } = this;
+      return d && r && trd && next === 1 && this.isSameDate(r, d);
+    },
     /**
      * This function handles the various states dictating which date, departure
      * or return, the user should be selecting next based on their previous
@@ -178,8 +212,9 @@ export default {
       }
     },
     /**
-     * When we have a departure date and no return date, we want to set the
-     * tentative return date to the date we're mousing over.
+     * When we have a departure date and no return date, or the departure date and
+     * return date are the same, we want to set the tentative return date to the
+     *  date we're mousing over (if its a later date).
      *
      * @param {String} eventName The event emitted from the DatePicker component
      * @param {Number} year The year emitted from the DatePicker component
@@ -189,12 +224,54 @@ export default {
      * @return {void}
      */
     handleMouseEnterDate(eventName, year, month, day) {
-      if (this.departureDate && !this.returnDate) {
+      if (
+        (this.departureDate && !this.returnDate) ||
+        this.isSameDate(this.departureDate, this.returnDate)
+      ) {
         const mouseOverDate = new Date(year, month, day);
         if (this.isLaterDate(mouseOverDate, this.departureDate)) {
           this.tentativeReturnDate = mouseOverDate;
         }
       }
+    },
+    /**
+     * Method for handling arrow clicks for each date button
+     *
+     * @param   {Number}  dateType   Departure or return; 0 or 1 respectively
+     * @param   {Number}  dayAdjust  Adust by how many days?
+     *
+     * @return  {void}
+     */
+    handleDayUpdate(dateType, dayAdjust) {
+      if (dateType === 0) {
+        const adjustedDate = this.adjustDay(dayAdjust, this.departureDate);
+        if (!this.isEarlierDate(adjustedDate, new Date())) {
+          // Make sure the new adjusted date is not earlier than today.
+          this.departureDate = adjustedDate;
+        }
+        if (
+          this.returnDate &&
+          this.isLaterDate(this.departureDate, this.returnDate)
+        ) {
+          // If we're later than the return date, reset the return date.
+          this.returnDate = null;
+        }
+        this.next = 0;
+      } else {
+        this.returnDate = this.adjustDay(dayAdjust, this.returnDate);
+        this.next = 1;
+      }
+    },
+    /**
+     * Handler for setting the "next" date.
+     *
+     * @param   {Number}  next  Departure or return; 0 or 1 respectively
+     *
+     * @return  {void}
+     */
+    handleNext(next) {
+      if (next === 1 && !this.departureDate) return;
+      this.next = next;
     }
   }
 };

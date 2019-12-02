@@ -6,8 +6,8 @@ export default {
     /**
      * Gets the difference in days between two dates.
      *
-     * @param   {Date}  date1  
-     * @param   {Date}  date2  
+     * @param   {Date}  date1
+     * @param   {Date}  date2
      *
      * @return  {Number}         The difference in days
      */
@@ -76,14 +76,29 @@ export default {
     /**
      * Returns a new date from adjusting {@link date} by
      * {@link n} months.
+     *
      * @param {Number} n The number of months to shift
      * @param {Date} date The date to adjust.
+     *
      * @return {Date} The adjusted month date
      */
     adjustedMonth(n, date) {
       const clonedDate = new Date(+date);
       clonedDate.setDate(1);
       return new Date(clonedDate.setMonth(clonedDate.getMonth() + n));
+    },
+    /**
+     * REturns a new date from adjusting {@link date} by {@link n} days.
+     *
+     * @param {Number} n The number of days to shift
+     * @param {Date} date The date to adjust.
+     *
+     * @return {Date} The adjusted day date
+     */
+    adjustDay(n, date) {
+      const clonedDate = new Date(+date);
+      clonedDate.setDate(clonedDate.getDate() + n);
+      return clonedDate;
     },
     /**
      * Determines if a given calendarDay is in the past relative to

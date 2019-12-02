@@ -18,7 +18,7 @@
       <button
         v-if="departureDate"
         class="gflights-date-buttons__button gflights-date-buttons__button--left-arrow"
-        @click="$emit('arrow-update', 0, -1)"
+        @click="$emit('day-update', 0, -1)"
       >
         <icon-base height="10px" width="10px" icon-name="left-chevron">
           <icon-left-chevron />
@@ -27,7 +27,7 @@
       <button
         v-if="departureDate"
         class="gflights-date-buttons__button gflights-date-buttons__button--right-arrow"
-        @click="$emit('arrow-update', 0, 1)"
+        @click="$emit('day-update', 0, 1)"
       >
         <icon-base height="10px" width="10px" icon-name="right-chevron">
           <icon-right-chevron />
@@ -42,8 +42,9 @@
       >{{ returnDateText }}</button>
       <button
         v-if="returnDate"
+        :disabled="isSameDate(departureDate, returnDate)"
         class="gflights-date-buttons__button gflights-date-buttons__button--left-arrow"
-        @click="$emit('arrow-update', 1, -1)"
+        @click="$emit('day-update', 1, -1)"
       >
         <icon-base height="10px" width="10px" icon-name="left-chevron">
           <icon-left-chevron />
@@ -52,7 +53,7 @@
       <button
         v-if="returnDate"
         class="gflights-date-buttons__button gflights-date-buttons__button--right-arrow"
-        @click="$emit('arrow-update', 1, 1)"
+        @click="$emit('day-update', 1, 1)"
       >
         <icon-base height="10px" width="10px" icon-name="right-chevron">
           <icon-right-chevron />
@@ -67,9 +68,11 @@ import IconBase from "./IconBase.vue";
 import IconLeftChevron from "./icons/IconLeftChevron.vue";
 import IconRightChevron from "./icons/IconRightChevron.vue";
 import IconCalendar from "./icons/IconCalendar.vue";
+import dateMixin from "../mixins/date";
 
 export default {
   name: "GoogleFlightsDateButtons",
+  mixins: [dateMixin],
   components: {
     IconBase,
     IconLeftChevron,
