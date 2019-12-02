@@ -30,6 +30,9 @@ export default {
       /**
        * The date recorded when a user hovers over/mouse enters an arbitrary
        * calendar date when we have a departure date set but no return date set.
+       * Or when we have both a departure date and return date, but they're
+       * the same date, and our intention is to set the return date to a later
+       * date then to what it is currently set to.
        *
        * @type {Date}
        */
@@ -102,7 +105,7 @@ export default {
         }
 
         let days = this.getDaysBetween(d, r) + 1;
-        let daysLength = days;
+        const daysLength = days;
         let inRangeDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
         // "do" ensures we include the departure date in range
@@ -123,10 +126,6 @@ export default {
           --days;
         } while (days > 0);
 
-        // If we have no return date, or we have both dates but they're the same
-        // with next date to pick being the return date, and a "mouse over" date,
-        // add a class to the date we're mousing over, in order to remove
-        // "in range" style.
         if ((!this.returnDate && trd) || isSamePickingLater) {
           range.push({
             date: trd,
